@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML model for instructions-->
+
+<Instructions>
+	<!-- XML model for instruction: R-R -->
+	<!-- Bytes: localization of the object in the instruction-->
+	<Inst>
+		<type> type </type>
+		<name> name </name>	
+		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
+		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
+		<RD> rd | bytesPos </RD> <!-- destination reg -->
+		<F1> Funct7 | bytesPos </F1>
+		<F2> Funct3 | bytesPos </F2>
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</Inst>
+
+	<!-- XML model for instruction: R-immediate-->
+	<object>
+		<type> type </type>
+		<name> name </name>	
+		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
+		<RS2> Imm | bytesPos </RS2> <!-- source Immediate -->
+		<IMM> rd | bytesPos </IMM> <!-- destination reg -->
+		<F2> Funct3 | bytesPos </F2>
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</object>
+
+	<!-- XML model for instruction: S-->
+	<!-- off1 + off2 = dir store-->
+	<Inst>
+		<type> type </type>
+		<name> name </name>	
+		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
+		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
+		<OFF1> imm | bytesPos </OFF1> <!-- offset 1 imm -->
+		<OFF2> imm | bytesPos </OFF2> <!-- offset 2 imm -->
+		<F2> Funct3 | bytesPos </F2>
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</Inst>
+
+	<!-- XML model for instruction: B -->
+	<!-- -->
+	<Inst>
+		<type> type </type>
+		<name> name </name>	
+		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
+		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
+		<OFF1> imm | bytesPos </OFF1> <!-- offset 1 imm -->
+		<OFF2> imm | bytesPos </OFF2> <!-- offset 2 imm -->
+		<F2> Funct3 | bytesPos </F2>
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</Inst>
+
+	<!-- XML model for instruction: U -->
+	<!-- -->
+	<Inst>
+		<type> type </type>
+		<name> name </name>	
+		<RD> rd | bytesPos </RD> <!-- destination reg -->
+		<IMM> imm | bytesPos </IMM> <!-- imm -->
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</Inst>
+
+	<!-- XML model for instruction: U -->
+	<!-- me falta modelar instruccion tipo J -->
+	<Inst>
+		<type> type </type>
+		<name> name </name>	
+		<RD> rd | bytesPos </RD> <!-- destination reg -->
+		<IMM> imm | bytesPos </IMM> <!-- imm -->
+		<OpCode> OpCode </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+	</Inst>
+
+</Instructions>

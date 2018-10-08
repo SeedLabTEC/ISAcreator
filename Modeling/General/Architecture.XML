@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML model for architecture-->
+
+<Architecure>
+	<Operations>
+		<AL> Arith-Logic </AL>
+		<ALIMM> Arith-Logic-Imm </ALIMM>
+		<DT> Data-Transaction </DT>
+		<FC> Flow-Control </FC>
+	</Operations>
+	<Instructions>
+		<size> size </size>
+	</Instructions>
+	<Register>
+		<simple>
+			<size> size </size> <!-- ?? -->
+			<amount> amount </amount>
+		</simple>
+		<DoublePrec>
+			<flag> flag </flag>
+			<size> size </size> <!-- ?? -->
+			<amount> amount </amount>
+		</DoublePrec>
+	</Register
+</Architecure>

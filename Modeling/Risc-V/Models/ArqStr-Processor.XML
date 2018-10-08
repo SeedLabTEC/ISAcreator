@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- XML model for architecture structure-->
+
+
+<Structure>
+	<!-- XML model for register info-->
+	<object>
+		<type> Register </type>
+		<Size> Size </Size>
+		<Amount> Amount </Amount>		
+	</object>
+
+	<!-- XML model for Instruction info-->
+	<object>
+		<type> Instruction </type>
+		<Size> Size </Size>
+		<Amount> Amount </Amount>
+		<R> boolean </R> <!-- if there are instructions of R type -->		
+		<I> boolean </I> <!-- if there are instructions of I type -->		
+		<S> boolean </S> <!-- if there are instructions of S type -->		
+		<B> boolean </B> <!-- if there are instructions of B type -->		
+		<U> boolean </U> <!-- if there are instructions of U type -->		
+		<J> boolean </J> <!-- if there are instructions of J type -->	
+	</object>
+</Structure>
