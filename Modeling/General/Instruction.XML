@@ -5,40 +5,40 @@
 	<!-- XML model for instruction: R-R -->
 	<!-- Bytes: localization of the object in the instruction-->
 	<Inst>
-		<type> type </type>
-		<name> name </name>	
-		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
-		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
-		<RD> rd | bytesPos </RD> <!-- destination reg -->
-		<F1> Funct7 | bytesPos </F1>
-		<F2> Funct3 | bytesPos </F2>
-		<OpCode> OpCode </Opcode>
-		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+		<type> R </type>
+		<name> add </name>	
+		<RS1> size | PosInit | PosEnd </RS1> <!-- source reg 1 -->
+		<RS2> size | PosInit | PosEnd </RS2> <!-- source reg 2 -->
+		<RD> size | PosInit | PosEnd </RD> <!-- destination reg -->
+		<Funct7> 0000000 | size | PosInit | PosEnd </Funct7>
+		<Funct3> 000 | size | PosInit | PosEnd </Func3t>
+		<OpCode> 0110011 |size | PosInit | PosEnd </Opcode>
+		<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
 	</Inst>
 
-	<!-- XML model for instruction: R-immediate-->
-	<object>
+	<!-- XML model for instruction: R-immediate and load-->
+	<Inst>
 		<type> type </type>
 		<name> name </name>	
-		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
-		<RS2> Imm | bytesPos </RS2> <!-- source Immediate -->
-		<IMM> rd | bytesPos </IMM> <!-- destination reg -->
-		<F2> Funct3 | bytesPos </F2>
-		<OpCode> OpCode </Opcode>
+		<RS1> rs1 | size | PosInit | PosEnd </RS1> <!-- source reg 1 -->
+		<IMM> Imm | size | PosInit | PosEnd </IMM> <!-- source Immediate -->
+		<RD> rd | size | PosInit | PosEnd </RD> <!-- destination reg -->
+		<Funct3> Funct3 | size | PosInit | PosEnd </Funct3>
+		<OpCode> OpCode | size | PosInit | PosEnd</Opcode>
 		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
-	</object>
+	</Inst>
 
 	<!-- XML model for instruction: S-->
 	<!-- off1 + off2 = dir store-->
 	<Inst>
 		<type> type </type>
 		<name> name </name>	
-		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
-		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
-		<OFF1> imm | bytesPos </OFF1> <!-- offset 1 imm -->
-		<OFF2> imm | bytesPos </OFF2> <!-- offset 2 imm -->
-		<F2> Funct3 | bytesPos </F2>
-		<OpCode> OpCode </Opcode>
+		<RS1> rs1 | size | PosInit | PosEnd </RS1> <!-- source reg 1 -->
+		<RS2> rs2 | size | PosInit | PosEnd </RS2> <!-- source reg 2 -->
+		<OFF1> imm | size | PosInit | PosEnd </OFF1> <!-- offset 1 imm -->
+		<OFF2> imm | size | PosInit | PosEnd </OFF2> <!-- offset 2 imm -->
+		<Funct3>  size | PosInit | PosEnd </Funct3>
+		<OpCode> OpCode |size | PosInit | PosEnd </Opcode>
 		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
 	</Inst>
 
@@ -47,12 +47,12 @@
 	<Inst>
 		<type> type </type>
 		<name> name </name>	
-		<RS1> rs1 | bytesPos </RS1> <!-- source reg 1 -->
-		<RS2> rs2 | bytesPos </RS2> <!-- source reg 2 -->
-		<OFF1> imm | bytesPos </OFF1> <!-- offset 1 imm -->
-		<OFF2> imm | bytesPos </OFF2> <!-- offset 2 imm -->
-		<F2> Funct3 | bytesPos </F2>
-		<OpCode> OpCode </Opcode>
+		<RS1> rs1 | size | PosInit | PosEnd </RS1> <!-- source reg 1 -->
+		<RS2> rs2 | size | PosInit | PosEnd </RS2> <!-- source reg 2 -->
+		<OFF1> imm | size | PosInit | PosEnd </OFF1> <!-- offset 1 imm -->
+		<OFF2> imm | size | PosInit | PosEnd </OFF2> <!-- offset 2 imm -->
+		<Funct3> size | PosInit | PosEnd </Funct3>
+		<OpCode> OpCode |size | PosInit | PosEnd </Opcode>
 		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
 	</Inst>
 
@@ -61,9 +61,9 @@
 	<Inst>
 		<type> type </type>
 		<name> name </name>	
-		<RD> rd | bytesPos </RD> <!-- destination reg -->
-		<IMM> imm | bytesPos </IMM> <!-- imm -->
-		<OpCode> OpCode </Opcode>
+		<RD> rd | size | PosInit | PosEnd </RD> <!-- destination reg -->
+		<IMM> imm | size | PosInit | PosEnd </IMM> <!-- imm -->
+		<OpCode> OpCode | size | PosInit | PosEnd </Opcode>
 		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
 	</Inst>
 
@@ -72,9 +72,9 @@
 	<Inst>
 		<type> type </type>
 		<name> name </name>	
-		<RD> rd | bytesPos </RD> <!-- destination reg -->
-		<IMM> imm | bytesPos </IMM> <!-- imm -->
-		<OpCode> OpCode </Opcode>
+		<RD> rd | size | PosInit | PosEnd </RD> <!-- destination reg -->
+		<IMM> imm | size | PosInit | PosEnd </IMM> <!-- imm -->
+		<OpCode> OpCode | size | PosInit | PosEnd</Opcode>
 		<Requires> Requires </Requires> <!-- IsRV32 - Null -->
 	</Inst>
 

@@ -1,0 +1,12 @@
+<C_Inst>
+    <type> type </type>
+    <OP1> 
+        <OPERATION> operation </OPERATION>            
+    </OP1>
+
+    <OP2> operation 2 </OP2>
+    .
+    .
+    .
+    <OPn> operation n </OPn>
+</C_Inst>

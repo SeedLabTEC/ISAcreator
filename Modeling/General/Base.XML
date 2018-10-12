@@ -1,0 +1,327 @@
+<!-- ************************************* R TPYE BEGINS ******************************************************** -->
+<Inst>
+	<type> R </type>
+	<name> add </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 000 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> sub </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0100000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 000 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> xor </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 100 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> or </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 110 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> and </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 111 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> and </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 111 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> sll </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 001 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> srl </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 101 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> sra </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0100000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 101 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0110011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<!-- ************************************* R TPYE ENDS ******************************************************** -->
+
+<!-- ************************************* I TPYE BEGINS ******************************************************** -->
+<Inst>
+	<type> I </type>
+	<name> addi </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 000 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> xori </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 100 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> ori </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 110 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> andi </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 111 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> slli </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 001 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> srli </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 101 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0010011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<!-- la diferencia entre srli y srai es que en el inmediato los bits de i[31:25] = 7'b0 entonces es srli, si i[31:25] == 7'b010_0000 entonces es srai -->
+<!-- ************************************* I TPYE ENDS ******************************************************** -->
+
+<!-- ********************************* I-LOAD TPYE BEGINS *************************************************** -->
+<!-- Las operaciones de load pueden ser tipo I o tipo R -->
+<Inst>
+	<type> I </type>
+	<name> lbi </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 000 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> lhi </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 001 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> lwi </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<IMM> 12 | 20 | 31 </IMM> <!-- source Immediate -->
+	<RD>  5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct3> 010 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> lb, lbu </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD> 5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0000000,0100000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 111 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> lh, lhu </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD> 5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0001000,0101000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 111 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> lw </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<RD> 5 | 7 | 11 </RD> <!-- destination reg -->
+	<Funct7> 0010_000 | 7 | 25 | 31 </Funct7>
+	<Funct3> 111 | 3 | 12 | 14 </Func3t>
+	<OpCode> 0000011 | 7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null  NO SE QUE PONER AQUI EL DE FRANDER LO PIDE-->
+</Inst>
+<!-- ********************************* I-LOAD TPYE ENDS *************************************************** -->
+
+<!-- ********************************* S TPYE BENS *************************************************** -->
+<Inst>
+	<type> I </type>
+	<name> sb </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 000 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> sh </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 001 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> sw </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 010 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> sb </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 100 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> R </type>
+	<name> sw </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 101 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<Inst>
+	<type> I </type>
+	<name> sw </name>	
+	<RS1> 5 | 15 | 19 </RS1> <!-- source reg 1 -->
+	<RS2> 5 | 20 | 24 </RS2> <!-- source reg 2 -->
+	<OFF1> 7 | 31 | 25 </OFF1> <!-- offset 1 imm -->
+	<OFF2> 5 | 7 | 11 </OFF2> <!-- offset 2 imm -->
+	<Funct3> 110 | 3 | 12 | 14 </Funct3>
+	<OpCode> 0100011 |7 | 0 | 6 </Opcode>
+	<Requires> Requires </Requires> <!-- IsRV32 - Null -->
+</Inst>
+
+<!-- ********************************* S TPYE ENDS *************************************************** -->
