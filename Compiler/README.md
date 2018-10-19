@@ -42,3 +42,7 @@ lowering of the LLVM IR in `RISCVISelLowering.cpp`. Combining of multiple LLVM I
 nodes into single target instructions is also possible using C++ in
 the same file. In general `RISCVISelLowering.cpp` sets up the lowering based on
 the ISA and the specific subtargets features. 
+
+# cmake -DCMAKE_INSTALL_PREFIX=/opt/riscv -DLLVM_TARGETS_TO_BUILD="RISCV" ../
+# make -j4
+# make install
