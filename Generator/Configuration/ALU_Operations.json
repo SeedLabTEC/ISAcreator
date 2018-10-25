@@ -1,0 +1,10 @@
+{
+    "ADD" : "ADD",
+    "SUB" : "SUB",
+    "NEG" : "NEG",
+    "SLL" : "SLL",
+    "SRL" : "SRL",
+    "AND" : "AND",
+    "OR" : "OR",
+    "SLT" : "SLT"
+}
