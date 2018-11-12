@@ -21,10 +21,10 @@ integer f;
 wire [2:0] ram_addr=mem_access_addr[2:0];
 initial
  begin
-  $readmemb("./test/test.data", memory);
+  $readmemb("./test.data", memory);
   
   f = $fopen(`filename);
-  $fmonitor(f, "time = %d\n", $time, 
+  $monitor(f, "time = %d\n", $time, 
   "\tmemory[0] = %b\n", memory[0],   
   "\tmemory[1] = %b\n", memory[1],
   "\tmemory[2] = %b\n", memory[2],

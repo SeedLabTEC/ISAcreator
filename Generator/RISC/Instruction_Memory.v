@@ -12,7 +12,7 @@ module Instruction_Memory(
  wire [3 : 0] rom_addr = pc[4 : 1];
  initial
  begin
-  $readmemb("./test/test.prog", memory,0,14);
+  $readmemb("./test.prog", memory,0,14);
  end
  assign instruction =  memory[rom_addr]; 
 
