@@ -5,7 +5,7 @@
 	<Operations>
 		<AL> Arith-Logic </AL>
 		<ALIMM> Arith-Logic-Imm </ALIMM>
-		<DT> Data-Transaction </DT>
+		<LS> Load-Store </LS>
 		<FC> Flow-Control </FC>
 	</Operations>
 	<Instructions>
