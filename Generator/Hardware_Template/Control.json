@@ -1,0 +1,24 @@
+{
+
+    "Original_Documentation" : "`timescale 1ns / 1ps\n// fpga4student.com\n// FPGA projects, VHDL projects, Verilog projects\n// Verilog code for RISC Processor\n// Verilog code for Control Unit\n",
+    "Module" : "module Control_Unit(\n      input[3:0] opcode,output reg[1:0] alu_op,\n     output reg jump,beq,bne,mem_read,mem_write,alu_src,reg_dst,mem_to_reg,reg_write);\n",
+    "S1" : "always @(*)\nbegin\n    case(opcode)\n",
+    "LW" : "    4'b0000:\n      begin\n      reg_dst = 1'b0;\n      alu_src = 1'b1;\n      mem_to_reg = 1'b1;\n      reg_write = 1'b1;\n      mem_read = 1'b1;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b10;\n      jump = 1'b0;\n     end\n",
+    "SW" : "    4'b0001:\n      begin\n      reg_dst = 1'b0;\n      alu_src = 1'b1;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b0;\n      mem_read = 1'b0;\n      mem_write = 1'b1;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b10;\n      jump = 1'b0;\n     end\n",
+    "ADD" : "    4'b0010:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "SUB" : "    4'b0011:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "NEG" : "    4'b0100:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "SLL" : "    4'b0101:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "SRL" : "    4'b0110:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n", 
+    "AND" : "    4'b0111:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "OR" : "    4'b1000:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "SLT" : "    4'b1001:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "HD" : "    4'b1010:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "BEQ" : "    4'b1011:\n      begin\n      reg_dst = 1'b0;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b0;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b1;\n      bne = 1'b0;\n      alu_op = 2'b01;\n      jump = 1'b0;\n     end\n",
+    "BNE" : "    4'b1100:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b1;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "J" : "    4'b1101:\n      begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      bne = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b1;\n     end\n",
+    "S2" :  "   default: begin\n      reg_dst = 1'b1;\n      alu_src = 1'b0;\n      mem_to_reg = 1'b0;\n      reg_write = 1'b1;\n      mem_read = 1'b0;\n      mem_write = 1'b0;\n      beq = 1'b0;\n      alu_op = 2'b00;\n      jump = 1'b0;\n     end\n",
+    "S3" : "    endcase\n   end\n",
+    "S4" : "endmodule"
+
+}

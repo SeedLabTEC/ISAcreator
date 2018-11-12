@@ -1,0 +1,17 @@
+{
+    "Original_Documentation" : "// fpga4student.com \n// FPGA projects, VHDL projects, Verilog projects\n// Verilog code for RISC Processor \n// Verilog code for ALU\n",
+    "Module" : "module ALU( input  [15:0] a, input  [15:0] b, input  [2:0] alu_control, \n  output reg [15:0] result, output zero);\n",
+    "S1" : "always @(*)\nbegin\n case(alu_control)\n",
+    "ADD" : "   3'b000: result = a + b;\n",
+    "SUB" : "   3'b001: result = a - b;\n",
+    "NEG" : "   3'b010: result = ~a;\n",
+    "SLL" : "   3'b011: result = a<<b;\n",
+    "SRL" : "   3'b100: result = a>>b;\n",
+    "AND" : "   3'b101: result = a & b;\n",
+    "OR" : "   3'b110: result = a | b;\n",
+    "SLT" : "   3'b111: begin if (a<b) result = 16'd1;\n        else result = 16'd0;\n      end\n",
+    "S2"  : "   default:result = a + b; \n",
+    "S3" : "   endcase\nend\n",
+    "S4" : "assign zero = (result==16'd0) ? 1'b1: 1'b0;\n",
+    "S5" : "endmodule"
+}
