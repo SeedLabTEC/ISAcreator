@@ -9,11 +9,6 @@ begin
  case(alu_control)
    3'b000: result = a + b;
    3'b001: result = a - b;
-   3'b101: result = a & b;
-   3'b110: result = a | b;
-   3'b111: begin if (a<b) result = 16'd1;
-        else result = 16'd0;
-      end
    default:result = a + b; 
    endcase
 end

@@ -49,7 +49,7 @@ def Represent_Control_Structure(Selected_Op,Control_Parameters):
     tmp3 = ">> File Structure: \n--------------------------------------------------------------------------------\n" 
     list1 = str(Control_Parameters.Control_Operations).split(":")
     list2 = str(Selected_Op).split(":")
-    for val in str(Control_Parameters.ALU_Structure).split(":"):
+    for val in str(Control_Parameters.Control_Structure).split(":"):
         if(val in list2):
             tmp3 = tmp3 + "|-" + val+ "\n"
         elif(val not in list1 and val not in list1):

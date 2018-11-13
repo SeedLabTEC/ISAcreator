@@ -10,7 +10,7 @@ module ALU(
  output reg [15:0] result,  //result 
  output zero
     );
-
+Pene
 always @(*)
 begin 
  case(alu_control)

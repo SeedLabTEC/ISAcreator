@@ -3,18 +3,40 @@ import Control_Generator as Control
 import Utilities as Util
 import Inst_Memory_Gen as Inst_Mem 
 import readArchitectureFile as Reader 
+import sys, os
 
 Util.Write_Log("Starting Main Flow")
 
-try:
-    ALU.Generate_ALU_File("ADD:OR:AND:SUB:SLT")
-except:
-    Util.Write_Log("Error on ALU generation")
+
+reader = Reader.Reader("../Modeling/Architectures/riscV16/riscV-16-Arch.txt")
+l = reader.readFile()
+inst = reader.getInstructions(l)
+
+ALU_Inst = ""
+Control_Inst = ""
+for i in inst:
+    if i['flag']=="1":
+        if Control_Inst == "":
+            Control_Inst = i['name']
+        else:
+            Control_Inst = Control_Inst + ":" + i['name']
+
+for i in inst:
+    if i['flag']=="1" and i['type']=="R":
+        if ALU_Inst == "":
+            ALU_Inst = i['name']
+        else:
+            ALU_Inst = ALU_Inst + ":" + i['name']
 
 try:
-    Control.Generate_Control_File("OR:LW:SLT:J:SUB")
+    ALU.Generate_ALU_File("SUB:ADD")
 except:
-    Util.Write_Log("Error on Control Unit generation")
+    Util.Write_Log("Error in ALU generation")
+
+try:
+    Control.Generate_Control_File("LW:SW")
+except:
+    Util.Write_Log("Error in Control Unit generation")
 
 
 
@@ -22,10 +44,13 @@ Inst_Mem.Generate_Inst_Mem_File("file.prog")
 
 Util.Write_Log("Execution Complete")
 
+print("*********************************************************************************")
+print("*************************Compile and Verification********************************")
+print("Possible errors:")
+os.system("cd RISC && ./run.sh")
+print("*********************************************************************************\n\n")
 
-reader = Reader.Reader("../Modeling/Architectures/riscV32/riscV-32-Arch.txt")
-l = reader.readFile()
-inst = reader.getInstructions(l)
-
-for i in inst:
-    print(i['name'])
+print("*********************************************************************************")
+print("*****************************Testbench Results***********************************")
+os.system("tail -n +2 ./Logs/TestBench.txt")
+print("*********************************************************************************")

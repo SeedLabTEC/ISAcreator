@@ -1,0 +1,10 @@
+Test.v
+ALU.v
+alu_control.v
+Control_Unit.v
+Data_Memory.v
+Datapath_Unit.v
+GPRs.v
+Instruction_Memory.v
+Parameter.v
+Risc_16_bit.v

@@ -22,57 +22,18 @@ begin
       alu_op = 2'b10;
       jump = 1'b0;
      end
-    4'b0011:
+    4'b0001:
       begin
-      reg_dst = 1'b1;
-      alu_src = 1'b0;
+      reg_dst = 1'b0;
+      alu_src = 1'b1;
       mem_to_reg = 1'b0;
-      reg_write = 1'b1;
+      reg_write = 1'b0;
       mem_read = 1'b0;
-      mem_write = 1'b0;
+      mem_write = 1'b1;
       beq = 1'b0;
       bne = 1'b0;
-      alu_op = 2'b00;
+      alu_op = 2'b10;
       jump = 1'b0;
-     end
-    4'b1000:
-      begin
-      reg_dst = 1'b1;
-      alu_src = 1'b0;
-      mem_to_reg = 1'b0;
-      reg_write = 1'b1;
-      mem_read = 1'b0;
-      mem_write = 1'b0;
-      beq = 1'b0;
-      bne = 1'b0;
-      alu_op = 2'b00;
-      jump = 1'b0;
-     end
-    4'b1001:
-      begin
-      reg_dst = 1'b1;
-      alu_src = 1'b0;
-      mem_to_reg = 1'b0;
-      reg_write = 1'b1;
-      mem_read = 1'b0;
-      mem_write = 1'b0;
-      beq = 1'b0;
-      bne = 1'b0;
-      alu_op = 2'b00;
-      jump = 1'b0;
-     end
-    4'b1101:
-      begin
-      reg_dst = 1'b1;
-      alu_src = 1'b0;
-      mem_to_reg = 1'b0;
-      reg_write = 1'b1;
-      mem_read = 1'b0;
-      mem_write = 1'b0;
-      beq = 1'b0;
-      bne = 1'b0;
-      alu_op = 2'b00;
-      jump = 1'b1;
      end
    default: begin
       reg_dst = 1'b1;
