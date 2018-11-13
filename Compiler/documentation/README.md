@@ -6,7 +6,7 @@
 
 <p align="justify"> Cuenta con una parte de frontend dónde se ingresa el código fuente, una segunda etapa de optimización y una final de backend en la que genera código máquina como se observa en la figura 1. </p>
 
-<p align="justify"> <img src="f1.png"> </p>
+<p align="center"> <img src="f1.png"> </p>
 
 <p align="center"> Figura 1. Fases generales del compilador </p>
 
@@ -16,19 +16,19 @@
 
 <p align="justify"> Primero se debe definir detalladamente la arquitectura del procesador a usar, en nuestro caso RISC-V se toma como base. En la figura 2 se describen algunas instrucciones en ensamblador de RISC-V.</p>
 
-<p align="justify"> <img src="f2.png"> </p>
+<p align="center"> <img src="f2.png"> </p>
 
 <p align="center">Figura 2. Lenguaje ensamblador de RISC-V </p>
 
 <p align="justify"> En la figura 3 se observan los principales formatos de instrucciones junto a su codificación. Es importante tener bien definidos los bits que le corresponden a cada parte de las instrucciones, más adelante se va a detallar cómo se agregan, modifican y eliminan los formatos de instrucciones en los archivos de configuración de LLVM. </p>
 
-<p align="justify"> <img src="f3.png"> </p>
+<p align="center"> <img src="f3.png"> </p>
 
 <p align="center">Figura 3. RISC-V instruction formats [Computer Organization and Design T H E  H A R D W A R E / S O F T W A R E  I N T E R FA C E RISC-V Edition] </p>
 
 <p align="justify"> En la figura 4 se observa la codificación de las instrucciones junto a los formatos descritos anteriormente, esta instrucciones al igual que en los formatos se agregan a los archivos de configuración de LLVM para su uso. </p>
 
-<p align="justify"> <img src="f4.png"> </p>
+<p align="center"> <img src="f4.png"> </p>
 
 <p align="center">Figura 4. RISC-V instruction encoding [Computer Organization and Design T H E  H A R D W A R E / S O F T W A R E  I N T E R FA C E RISC-V Edition] </p>
 
