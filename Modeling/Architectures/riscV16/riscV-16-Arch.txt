@@ -1,0 +1,24 @@
+{"operation": "Arithmetic-Logic", "flag": 1, "type": "R"}
+{"operation": "Load", "flag": 1, "type": "L"}
+{"operation": "Store", "flag": 1, "type": "S"}
+{"operation": "Branch", "flag": 1, "type": "B"}
+{"operation": "Jump", "flag": "1", "type": "J"}
+{"endocodification": {"OpCode": "4|15|12", "RS2": "3|9|7", "type": "R", "RD": "5|7|11", "RS1": "3|11|9"}}
+{"endocodification": {"IMM": "6|5|0", "OpCode": "4|15|12", "type": "L", "RD": "5|8|6", "RS1": "5|11|9"}}
+{"endocodification": {"OpCode": "4|15|12", "IMM": "6|5|0", "RS2": "3|8|6", "type": "S", "RS1": "5|11|9"}}
+{"endocodification": {"OpCode": "4|15|12", "IMM": "6|5|0", "RS2": "3|8|6", "type": "B", "RS1": "5|11|9"}}
+{"endocodification": {"OpCode": "4|15|12", "type": "J", "IMM": "12|11|0"}}
+{"registerType": "simple", "size": "16", "amount": "16"}
+{"instructionSize": "16"}
+{"instruction": {"flag": 1, "name": "add", "OpCode": "0002", "type": "R"}}
+{"instruction": {"flag": 1, "name": "sub", "OpCode": "0003", "type": "R"}}
+{"instruction": {"flag": "0", "name": "load", "OpCode": "0000", "type": "L"}}
+{"instruction": {"flag": "0", "name": "store", "OpCode": "0001", "type": "S"}}
+{"instruction": {"flag": 1, "name": "sll", "OpCode": "0005", "type": "R"}}
+{"instruction": {"flag": "0", "name": "slr", "OpCode": "0006", "type": "R"}}
+{"instruction": {"flag": "0", "name": "and", "OpCode": "0007", "type": "R"}}
+{"instruction": {"flag": "0", "name": "or", "OpCode": "0008", "type": "R"}}
+{"instruction": {"flag": "0", "name": "less", "OpCode": "0009", "type": "R"}}
+{"instruction": {"flag": "0", "name": "beq", "OpCode": "0011", "type": "B"}}
+{"instruction": {"flag": "0", "name": "bnq", "OpCode": "0012", "type": "B"}}
+{"instruction": {"flag": "0", "name": "bnq", "OpCode": "0013", "type": "J"}}

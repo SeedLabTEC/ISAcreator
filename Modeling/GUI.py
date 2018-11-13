@@ -391,7 +391,7 @@ def createInstEncodWindow(pWindow, pOperationsTypeAvailable, pEncodes, pFileName
                                         messagebox.showinfo(message="On " + entry[4] + " selected the size does not match with\n the corresponding start and end bit, try again")
                                         break
                                     else: 
-                                        tmp.append([entry[4],size,init,end])
+                                        tmp.append([entry[5],size,init,end])
                                         instructionSize -= size
                                 else:
                                     flag = 1
@@ -417,10 +417,9 @@ def createInstEncodWindow(pWindow, pOperationsTypeAvailable, pEncodes, pFileName
             x = {'type':newOPName}
             for i in tmp:
                 x[str(i[0])] ='' + str(i[1]) + '|' + str(i[2]) +'|'+str(i[3])
-            print(x)
             pEncodes.append({'endocodification':x})
             createInstEncodWindow.destroy()
-            model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,pOption, instSize, registerType)
+            model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOption, instSize, registerType)
 
 
     createButton = tk.Button(createInstEncodWindow, text="Finish" , width= 20 ,font= ("Arial Bold", 8), bg = 'white', 
@@ -441,7 +440,7 @@ def createModelFunct(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,list
         if(registerType[i]['registerType'] == 'simple'):
             registerType[i]['size'] = sizeEntrySR.get()
             registerType[i]['amount'] = amountEntrySR.get()
-    if(pOption == 1):
+    if(pOption != 1):
         pWindow.withdraw()
         createModel = tk.Toplevel()
         createModel.title('Create Instruction')
@@ -563,7 +562,7 @@ def selectArch(pWindow, pOption = 1):
                         activebackground = '#ffffb3', 
                         cursor = 'fleur',activeforeground = '#1a1a00')
         riscV16 = tk.Button(window, text="Risc V 16" , width= 10, font= ("Arial Bold", 12),
-                        bg = "white", command= lambda:nextStep(pWindow,"./Architectures/riscV16/riscV-32-Arch.txt",window),
+                        bg = "white", command= lambda:nextStep(pWindow,"./Architectures/riscV16/riscV-16-Arch.txt",window),
                         activebackground = '#ffffb3', 
                         cursor = 'fleur',activeforeground = '#1a1a00')
         mips32 = tk.Button(window, text="Mips 32" , width= 10, font= ("Arial Bold", 12),

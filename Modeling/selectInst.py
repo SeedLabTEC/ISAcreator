@@ -12,7 +12,7 @@ import time
 from readArchitectureFile import Reader
 from guiObjects import Checkbar
  
-listOfOpcodesRisc = ['1111111','1011111','1101111','1110111','1111011','1111101','1111110','1001111','1010111','1011011',
+listOfOpcodesRisc32 = ['1111111','1011111','1101111','1110111','1111011','1111101','1111110','1001111','1010111','1011011',
                 '1011101','1011110','1100111','1101011','1101101','1101110','0000001','1000000','1100000','0011010', 
                 '0111010']
 
@@ -44,7 +44,7 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
         opcodeSelect.set('')                
 
         #define gui elements
-        opcodeMenu = tk.OptionMenu(createInstWindow, opcodeSelect, *listOfOpcodesRisc)        
+        opcodeMenu = tk.OptionMenu(createInstWindow, opcodeSelect, *listOfOpcodesRisc3232)        
 
         #pack gui elements 
         opcodeLabel.grid(row = 0, column = 0)
@@ -105,7 +105,7 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
 
         def verify():
             listOfVar = [opcodeSelect,operationTypeSelect,funct3Select,funct7Select,instSelect]
-            lsiOfList = [listOfOpcodesRisc, listOfOpName, listOfFunct3, listOfFunct7, listOfInstAvailable]
+            lsiOfList = [listOfOpcodesRisc3232, listOfOpName, listOfFunct3, listOfFunct7, listOfInstAvailable]
             counter = 0
             for i in range(0,len(listOfVar)-1):                
                 opcodeChoosed = listOfVar[i].get()
