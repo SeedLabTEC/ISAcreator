@@ -12,6 +12,7 @@ class Reader():
         file = open(self.fileName, "r")
         listOfElements = []
         for element in file:
+            print(element)
             listOfElements.append(ast.literal_eval(element)) #to read element as a dict type
         return listOfElements
 
