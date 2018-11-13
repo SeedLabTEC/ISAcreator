@@ -6,7 +6,7 @@ LLVM es una es una infraestructura para desarrollar compiladores, diseñada para
 
 Cuenta con una parte de frontend dónde se ingresa el código fuente, una segunda etapa de optimización y una final de backend en la que genera código máquina como se observa en la figura 1.
 
-![1542138333017](/home/fgranados/.config/Typora/typora-user-images/1542138333017.png)
+![1542138333017](f1.png)
 
 Figura 1. Fases generales del compilador
 
@@ -16,19 +16,19 @@ Debido a que el código de entrada puede ser cualquiera, es complejo el manejo d
 
 Primero se debe definir detalladamente la arquitectura del procesador a usar, en nuestro caso RISC-V se toma como base. En la figura 2 se describen algunas instrucciones en ensamblador de RISC-V.
 
-![1542139131304](/home/fgranados/.config/Typora/typora-user-images/1542139131304.png)
+![1542139131304](f2.png)
 
 Figura 2. Lenguaje ensamblador de RISC-V
 
 En la figura 3 se observan los principales formatos de instrucciones junto a su codificación. Es importante tener bien definidos los bits que le corresponden a cada parte de las instrucciones, más adelante se va a detallar cómo se agregan, modifican y eliminan los formatos de instrucciones en los archivos de configuración de LLVM.
 
-![1542138622433](/home/fgranados/.config/Typora/typora-user-images/1542138622433.png)
+![1542138622433](f3.png)
 
 Figura 3. RISC-V instruction formats [Computer Organization and Design T H E  H A R D W A R E / S O F T W A R E  I N T E R FA C E RISC-V Edition]
 
 En la figura 4 se observa la codificación de las instrucciones junto a los formatos descritos anteriormente, esta instrucciones al igual que en los formatos se agregan a los archivos de configuración de LLVM para su uso.
 
-![1542138702390](/home/fgranados/.config/Typora/typora-user-images/1542138702390.png)
+![1542138702390](f4.png)
 
 Figura 4. RISC-V instruction encoding [Computer Organization and Design T H E  H A R D W A R E / S O F T W A R E  I N T E R FA C E RISC-V Edition]
 
