@@ -146,7 +146,7 @@ def createInstEncodWindow(pWindow, pOperationsTypeAvailable, pEncodes, pFileName
     createInstEncodWindow = tk.Toplevel()
     createInstEncodWindow.title('Create Instruction Type')
     createInstEncodWindow.config(bg= '#eeffe6')
-    createInstEncodWindow.geometry('680x560')
+    createInstEncodWindow.geometry('880x660')
     createInstEncodWindow.resizable(width=tk.NO, height=tk.NO)
     createInstEncodWindow.focus_set()
 

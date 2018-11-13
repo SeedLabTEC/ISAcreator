@@ -154,3 +154,23 @@
 <<< 2018-11-11 19:21:00.832788 ---- Starting Instruction Memory Generator >>>
 <<< 2018-11-11 19:21:00.832815 ---- Configuration File Imported >>>
 <<< 2018-11-11 19:21:00.833245 ---- Execution Complete >>>
+<<< 2018-11-13 09:24:43.221744 ---- Starting Main Flow >>>
+<<< 2018-11-13 09:24:43.221970 ---- Starting ALU Generator >>>
+<<< 2018-11-13 09:24:43.222019 ---- Configuration File Imported >>>
+<<< 2018-11-13 09:24:43.222762 ---- Mapping ALU Structure >>>
+<<< 2018-11-13 09:24:43.222807 ---- Creating ALU Structure >>>
+<<< 2018-11-13 09:24:43.222899 ---- ALU Structure Created >>>
+<<< 2018-11-13 09:24:43.223070 ---- Creating ALU.sv >>>
+<<< 2018-11-13 09:24:43.223107 ---- Reading ALU Template >>>
+<<< 2018-11-13 09:24:43.223529 ---- File Generated >>>
+<<< 2018-11-13 09:24:43.223604 ---- Starting Control Generator >>>
+<<< 2018-11-13 09:24:43.223642 ---- Configuration File Imported >>>
+<<< 2018-11-13 09:24:43.224149 ---- Mapping Control Structure >>>
+<<< 2018-11-13 09:24:43.224191 ---- Creating Control Structure >>>
+<<< 2018-11-13 09:24:43.224273 ---- Control Structure Created >>>
+<<< 2018-11-13 09:24:43.224349 ---- Creating Control.sv >>>
+<<< 2018-11-13 09:24:43.224383 ---- Reading Control Template >>>
+<<< 2018-11-13 09:24:43.224650 ---- File Generated >>>
+<<< 2018-11-13 09:24:43.224707 ---- Starting Instruction Memory Generator >>>
+<<< 2018-11-13 09:24:43.224741 ---- Configuration File Imported >>>
+<<< 2018-11-13 09:24:43.225248 ---- Execution Complete >>>

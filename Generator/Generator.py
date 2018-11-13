@@ -2,6 +2,7 @@ import ALU_Generator as ALU
 import Control_Generator as Control
 import Utilities as Util
 import Inst_Memory_Gen as Inst_Mem 
+import readArchitectureFile as Reader 
 
 Util.Write_Log("Starting Main Flow")
 
@@ -22,3 +23,9 @@ Inst_Mem.Generate_Inst_Mem_File("file.prog")
 Util.Write_Log("Execution Complete")
 
 
+reader = Reader.Reader("../Modeling/Architectures/riscV32/riscV-32-Arch.txt")
+l = reader.readFile()
+inst = reader.getInstructions(l)
+
+for i in inst:
+    print(i['name'])

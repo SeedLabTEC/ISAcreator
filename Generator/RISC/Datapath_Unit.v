@@ -1,4 +1,5 @@
 `timescale 1ns / 1ps
+`include "Parameter.v"
 // fpga4student.com 
 // FPGA projects, VHDL projects, Verilog projects 
 // Verilog code for RISC Processor 
@@ -12,11 +13,11 @@ module Datapath_Unit(
  reg  [15:0] pc_current;
  wire [15:0] pc_next,pc2;
  wire [15:0] instr;
- wire [2:0] reg_write_dest;
+ wire [`regdest_size:0] reg_write_dest;
  wire [15:0] reg_write_data;
- wire [2:0] reg_read_addr_1;
+ wire [`regread1_size:0] reg_read_addr_1;
  wire [15:0] reg_read_data_1;
- wire [2:0] reg_read_addr_2;
+ wire [`regread2_size:0] reg_read_addr_2;
  wire [15:0] reg_read_data_2;
  wire [15:0] ext_im,read_data2;
  wire [2:0] ALU_Control;
