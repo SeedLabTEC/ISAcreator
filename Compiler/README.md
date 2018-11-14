@@ -1,8 +1,3 @@
-# riscv-llvm
-Backend compiler based in RISC-V
-
-Original project in: https://github.com/ucb-bar/esp-llvm/tree/riscv-trunk
-
 Low Level Virtual Machine (LLVM)
 ======================================================
 
@@ -21,10 +16,20 @@ documentation setup.
 If you're writing a package for LLVM, see `docs/Packaging.rst` for our
 suggestions.
 
-RISC-V LLVM Support [![Build Status](https://travis-ci.com/Franderg/riscv-llvm.svg?branch=master)](https://travis-ci.com/Franderg/riscv-llvm)
+
+RISC-V LLVM Support [![Build Status](https://travis-ci.org/riscv/riscv-llvm.svg?branch=riscv-trunk)](https://travis-ci.org/riscv/riscv-llvm)
 --------------------------------------------------------
 
-This repository contains a new target for LLVM RISC-V. It supports a dynamic source version of the ISA. 
+Author  : Colin Schmidt (colins@eecs.berkeley.edu)  
+Date    : February 24, 2014  
+Version : (under version control)  
+
+
+This repository contains a new target for LLVM RISC-V. It supports the latest
+version of the ISA 2.0. This backend currently only supports assembly generation
+and riscv64-unknown-\*-gcc must be used to assemble and link the executable. The
+[RISCV](https://github.com/riscv/riscv-llvm/tree/RISCV) branch is based on LLVM 3.3 and, the 
+[riscv-trunk](https://github.com/riscv/riscv-llvm/tree/riscv-trunk) branch is following upstream LLVM master.
 
 The backend is structured similarly to most other LLVM backends and tries to use 
 the tablegen format as much as possible. The description of the instructions
@@ -43,18 +48,44 @@ nodes into single target instructions is also possible using C++ in
 the same file. In general `RISCVISelLowering.cpp` sets up the lowering based on
 the ISA and the specific subtargets features. 
 
+This backend does not include all features of a backend but is focused on 
+generating assembly in an extensible way such that adding new ISA extensions
+and using them should be relatively painless. As the RISC-V support develops
+the backend may provide more features.
+
+The compiler is fairly robust with similar performance to riscv64-unknown-\*-gcc, so it use
+in any and all projects is encouraged.
+
+Feedback and suggestions are welcome.
+
 Installation
 ------------------------------------------------------------------
 
 The LLVM RISCV backend is built just as the normal LLVM system.
 
-	$ git clone https://github.com/SeedLabTEC/ISAcreator.git -b develop
-	$ cd Compiler 		
+	$ git clone -b RISCV https://github.com/riscv/riscv-llvm.git
+	$ git submodule update --init
 	$ mkdir build
 	$ cd build
-	$ cmake -DCMAKE_INSTALL_PREFIX=/opt/riscv -DLLVM_TARGETS_TO_BUILD="RISCV" ../
-	$ make -j4
-	$ make install
+  $ cmake -DCMAKE_INSTALL_PREFIX=/opt/riscv -DLLVM_TARGETS_TO_BUILD="RISCV" ../
+  $ make
+  $ make install
 
 Now if `/opt/riscv` is on your path you should be able to use clang and LLVM with
 RISC-V support.
+
+Use
+--------------------------------------------------------------------
+
+Using the llvm-riscv is fairly simple to build a full executable however you
+need riscv64-unknown-\*-gcc to do the assembling and linking. An example of compiling hello
+world:
+
+	$ cat hello.c
+	#include <stdio.h>
+	int main() {
+	    printf("Hello World!\n");
+	}
+	$ clang -target riscv64 -mriscv=RV64IAMFD -S hello.c -o hello.S
+	$ riscv64-unknown-elf-gcc -o hello.riscv hello.S
+

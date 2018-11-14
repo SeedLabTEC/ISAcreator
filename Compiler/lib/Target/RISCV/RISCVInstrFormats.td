@@ -67,24 +67,68 @@ class InstR<string mnemonic, bits<7> op, bits<7> funct7, bits<3> funct3,
   let Inst{6 - 0} = op;
 }
 
-//S-type
-class InstS<string mnemonic, bits<7> op, bits<3> funct3,
-            SDPatternOperator operator, RegisterOperand cls1, 
-            RegisterOperand cls2>
-  : InstRISCV<4, (outs cls1:$dst), (ins cls2:$src1, cls2:$src2),
-                mnemonic#"\t$dst, $src1, $src2", 
-                [(set cls1:$dst, (operator cls2:$src1, cls2:$src2))]> {
+//LR/SC
+class InstLR<string mnemonic, bits<3> funct3,
+             RegisterOperand cls1, Operand cls2>
+  : InstRISCV<4, (outs cls1:$dst), (ins cls2:$src2), 
+                mnemonic#"\t$dst, $src2", 
+                []> {
   field bits<32> Inst;
 
+  bits<5> RD;
+  bits<5> RS1;
+
+  let Inst{31-27} = 0b00010;
+  let Inst{26} = 0;//aq
+  let Inst{25} = 0;//rl
+  let Inst{24-20} = 0b00000;
+  let Inst{19-15} = RS1;
+  let Inst{14-12} = funct3;
+  let Inst{11- 7} = RD;
+  let Inst{6 - 0} = 0b0101111;
+}
+
+class InstSC<string mnemonic, bits<3> funct3,
+             RegisterOperand reg, Operand memOp>
+  : InstRISCV<4, (outs reg:$dst), (ins reg:$src2, memOp:$src1), 
+                mnemonic#"\t$dst, $src2, $src1", 
+                []> {
+  field bits<32> Inst;
+
+  bits<5> RD;
   bits<5> RS1;
   bits<5> RS2;
-  bits<12> IMM;
 
-  let Inst{31-25} = IMM{11-5};
+  let Inst{31-27} = 0b00011;
+  let Inst{26} = 0;//aq
+  let Inst{25} = 0;//rl
   let Inst{24-20} = RS2;
   let Inst{19-15} = RS1;
   let Inst{14-12} = funct3;
-  let Inst{11- 7} = IMM{4-0};
+  let Inst{11- 7} = RD;
+  let Inst{6 - 0} = 0b0101111;
+}
+
+//A-Type
+class InstA<string mnemonic, bits<7> op, bits<5> funct5, bits<3> funct3,
+            SDPatternOperator operator, RegisterOperand cls1, 
+            Operand cls2>
+  : InstRISCV<4, (outs cls1:$dst), (ins cls1:$src1, cls2:$src2), 
+                mnemonic#"\t$dst, $src1, $src2", 
+                [(set cls1:$dst, (operator regaddr:$src2, cls1:$src1))]> {
+  field bits<32> Inst;
+
+  bits<5> RD;
+  bits<5> RS1;
+  bits<5> RS2;
+
+  let Inst{31-27} = funct5;
+  let Inst{26} = 0;//aq
+  let Inst{25} = 0;//rl
+  let Inst{24-20} = RS2;
+  let Inst{19-15} = RS1;
+  let Inst{14-12} = funct3;
+  let Inst{11- 7} = RD;
   let Inst{6 - 0} = op;
 }
 
@@ -151,6 +195,22 @@ class InstI<string mnemonic, bits<7> op, bits<3> funct3,
   let Inst{6 - 0} = op;
 }
 
+//ISYS-Type
+class InstISYS<string mnemonic, bits<12> funct12,
+             RegisterOperand cls1>
+  : InstRISCV<4, (outs cls1:$dst), (ins), 
+                mnemonic#"\t$dst", 
+                []> {
+  field bits<32> Inst;
+
+  bits<5> RD;
+
+  let Inst{31-20} = funct12;
+  let Inst{19-15} = 0b00000;
+  let Inst{14-12} = 0b010;
+  let Inst{11- 7} = RD;
+  let Inst{6 - 0} = 0b1110011;
+}
 
 //B-Type, too different to consolidate further
 class InstB<bits<7> op, bits<3> funct3, dag outs, dag ins, string asmstr, list<dag> pattern>

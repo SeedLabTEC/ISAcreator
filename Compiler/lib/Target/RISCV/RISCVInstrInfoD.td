@@ -9,10 +9,12 @@
 
 let mayLoad = 1 in {
   def FLD : InstLoad <"fld" , 0b0000111, 0b011, loadf64,  FP64, mem>, Requires<[HasD,IsRV32]>; 
+  def FLD64 : InstLoad <"fld" , 0b0000111, 0b011, loadf64,  FP64, mem64>, Requires<[HasD,IsRV64]>; 
 }
 
 let mayStore = 1 in {
   def FSD : InstStore <"fsd" , 0b0100111, 0b011, store, FP64, mem>, Requires<[HasD,IsRV32]>; 
+  def FSD64 : InstStore <"fsd" , 0b0100111, 0b011, store, FP64, mem64>, Requires<[HasD,IsRV64]>; 
 }
 
 multiclass  FPBinOps64<string name, SDPatternOperator op1, bits<5> funct5, bits<2> fmt> {
@@ -48,7 +50,14 @@ defm FCVT_D_WU : FPConvOps<"fcvt.d.wu", uint_to_fp, FP64, GR32, 0b01111, 0b01>, 
 //make sure we get the right rounding mode
 def :Pat<(i32 (fp_to_uint FP64:$src)), (FCVT_WU_D_RTZ FP64:$src)>;
 def :Pat<(i32 (fp_to_sint FP64:$src)), (FCVT_W_D_RTZ FP64:$src)>;
-
+//RV64F
+defm FCVT_L_D  : FPConvOps<"fcvt.l.d",  null_frag, GR64, FP64, 0b01000, 0b01>, Requires<[HasD,IsRV64]>;
+defm FCVT_LU_D : FPConvOps<"fcvt.lu.d", null_frag, GR64, FP64, 0b01001, 0b01>, Requires<[HasD,IsRV64]>;
+defm FCVT_D_L  : FPConvOps<"fcvt.d.l",  sint_to_fp, FP64, GR64, 0b01100, 0b01>, Requires<[HasD,IsRV64]>;
+defm FCVT_D_LU : FPConvOps<"fcvt.d.lu", uint_to_fp, FP64, GR64, 0b01101, 0b01>, Requires<[HasD,IsRV64]>;
+//make sure we get the right rounding mode
+def :Pat<(i64 (fp_to_uint FP64:$src)), (FCVT_LU_D_RTZ FP64:$src)>;
+def :Pat<(i64 (fp_to_sint FP64:$src)), (FCVT_L_D_RTZ FP64:$src)>;
 //Single <-> Double
 defm FCVT_S_D  : FPConvOps<"fcvt.s.d",  fround , FP32, FP64, 0b10001, 0b00>, Requires<[HasD]>;
 defm FCVT_D_S  : FPConvOps<"fcvt.d.s",  fextend, FP64, FP32, 0b10000, 0b01>, Requires<[HasD]>;
@@ -80,6 +89,10 @@ def : Pat<(fabs FP64:$src), (FSGNJX_D FP64:$src, FP64:$src)>, Requires<[HasD]>;
 //llvm also can't select f32 = fcopysign f32,f64
 def : Pat<(fcopysign FP32:$src1, FP64:$src2), (FSGNJ_S FP32:$src1, (FCVT_S_D_RDY FP64:$src2))>;
 
+//Move instruction (bitcasts)
+def FMV_X_D : InstConv<"fmv.x.d", "", 0b1010011, 0b11100, 0b01, 0b000, bitconvert, GR64, FP64>, Requires<[HasD, IsRV64]>;
+def FMV_D_X : InstConv<"fmv.d.x", "", 0b1010011, 0b11110, 0b01, 0b000, bitconvert, FP64, GR64>, Requires<[HasD, IsRV64]>;
+
 //Floating point comparisons
 def FEQ_D : InstSign<"feq.d", 0b1010011, 0b10101, 0b01, 0b000, setoeq, GR32, FP64>, Requires<[HasD]>;
 def FLT_D : InstSign<"flt.d", 0b1010011, 0b10110, 0b01, 0b000, setolt, GR32, FP64>, Requires<[HasD]>;
@@ -93,6 +106,7 @@ defm : FPCmpPats<FP64, FEQ_D, FUEQ_D, FLT_D, FULT_D, FLE_D, FULE_D>;
 
 //extloads
 def : Pat<(extloadf32 addr:$addr), (FCVT_D_S_RDY (FLW addr:$addr))>, Requires<[HasD,IsRV32]>;
+def : Pat<(extloadf32 addr:$addr), (FCVT_D_S_RDY (FLW64 addr:$addr))>, Requires<[HasD,IsRV64]>;
 
 //fp imm
 def :Pat<(fpimm0), (FCVT_D_W_RDY zero)>;

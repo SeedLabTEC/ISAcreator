@@ -196,7 +196,70 @@ def ORI : InstI<"ori" , 0b0010011, 0b110       , or , GR32, GR32, imm32sx12>;
 def ANDI: InstI<"andi", 0b0010011, 0b111       , and, GR32, GR32, imm32sx12>;
 ```
 
+En RISCVInstrFormats.td se definen los formatos de las instrucciones.
 
+```makefile
+//===----------------------------------------------------------------------===//
+// Basic RISCV instruction definition
+//===----------------------------------------------------------------------===//
+
+class InstRISCV<int size, dag outs, dag ins, string asmstr,
+                  list<dag> pattern> : Instruction {
+  let Namespace = "RISCV";
+
+  dag OutOperandList = outs;
+  dag InOperandList = ins;
+  let Size = size;
+  let Pattern = pattern;
+  let AsmString = asmstr;
+
+  let AddedComplexity = 1;
+
+  // Used to identify a group of related instructions, such as ST and STY.
+  string Function = "";
+
+  // "12" for an instruction that has a ...Y equivalent, "20" for that
+  // ...Y equivalent.
+  string PairType = "none";
+
+  // True if this instruction is a simple load of a register
+  // (with no sign or zero extension).
+  bit SimpleLoad = 0;
+
+  // True if this instruction is a simple store of a register
+  // (with no truncation).
+  bit SimpleStore = 0;
+
+  let TSFlags{0} = SimpleLoad;
+  let TSFlags{1} = SimpleStore;
+}
+
+```
+
+Como ejemplo se describe el formato R, se describen los bits del código de operación, los bits de funct3 y funct7, así como los registros operadores tal y como se había analizado en la figura 3
+
+```makefile
+//R-Type
+class InstR<string mnemonic, bits<7> op, bits<7> funct7, bits<3> funct3,
+            SDPatternOperator operator, RegisterOperand cls1, 
+            RegisterOperand cls2>
+  : InstRISCV<4, (outs cls1:$dst), (ins cls2:$src1, cls2:$src2),
+                mnemonic#"\t$dst, $src1, $src2", 
+                [(set cls1:$dst, (operator cls2:$src1, cls2:$src2))]> {
+  field bits<32> Inst;
+
+  bits<5> RD;
+  bits<5> RS1;
+  bits<5> RS2;
+
+  let Inst{31-25} = funct7;
+  let Inst{24-20} = RS2;
+  let Inst{19-15} = RS1;
+  let Inst{14-12} = funct3;
+  let Inst{11- 7} = RD;
+  let Inst{6 - 0} = op;
+}
+```
 
 
 

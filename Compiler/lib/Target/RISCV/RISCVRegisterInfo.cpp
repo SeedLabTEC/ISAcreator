@@ -151,7 +151,7 @@ void RISCVRegisterInfo::eliminateFI(MachineBasicBlock::iterator II,
   if (!MI.isDebugValue() && !isInt<12>(Offset)) {
     MachineBasicBlock &MBB = *MI.getParent();
     DebugLoc DL = II->getDebugLoc();
-    unsigned ADD = Subtarget.isRV32() ? RISCV::ADD : RISCV::ADD;
+    unsigned ADD = Subtarget.isRV64() ? RISCV::ADD64 : RISCV::ADD;
     unsigned Reg;
     const RISCVInstrInfo &TII =
         *static_cast<const RISCVInstrInfo *>(

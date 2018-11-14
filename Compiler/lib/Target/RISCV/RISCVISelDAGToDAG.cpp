@@ -145,12 +145,18 @@ class RISCVDAGToDAGISel : public SelectionDAGISel {
         (MI.getOperand(2).getImm() == 0)) {
       DstReg = MI.getOperand(0).getReg();
       ZeroReg = RISCV::zero;
-    } else if ((MI.getOpcode() == RISCV::ADDI) &&
+    } else if ((MI.getOpcode() == RISCV::ADDI64) &&
                (MI.getOperand(1).isReg()) && //avoid frame-index
-               (MI.getOperand(1).getReg() == RISCV::zero) &&
+               (MI.getOperand(1).getReg() == RISCV::zero_64) &&
                (MI.getOperand(2).getImm() == 0)) {
       DstReg = MI.getOperand(0).getReg();
-      ZeroReg = RISCV::zero;
+      ZeroReg = RISCV::zero_64;
+    } else if ((MI.getOpcode() == RISCV::ADDIW) &&
+               (MI.getOperand(1).isReg()) && //avoid frame-index
+               (MI.getOperand(1).getReg() == RISCV::zero_64) &&
+               (MI.getOperand(2).getImm() == 0)) {
+      DstReg = MI.getOperand(0).getReg();
+      ZeroReg = RISCV::zero_64;
     }
   
     if (!DstReg)
@@ -411,8 +417,8 @@ void RISCVDAGToDAGISel::Select(SDNode *Node) {
     int FI = cast<FrameIndexSDNode>(Node)->getIndex();
     SDValue TFI =
         CurDAG->getTargetFrameIndex(FI, getTargetLowering()->getPointerTy(CurDAG->getDataLayout()));
-    unsigned Opc = Subtarget.isRV32() ? RISCV::ADDI : RISCV::ADDI;
-    EVT VT = Subtarget.isRV32() ? MVT::i32 : MVT::i32;
+    unsigned Opc = Subtarget.isRV64() ? RISCV::ADDI64 : RISCV::ADDI;
+    EVT VT = Subtarget.isRV64() ? MVT::i64 : MVT::i32;
     
     if(Node->hasOneUse()) { //don't create a new node just morph this one
       CurDAG->SelectNodeTo(Node, Opc, VT, TFI, imm);
