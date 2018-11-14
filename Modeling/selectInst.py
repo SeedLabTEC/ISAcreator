@@ -16,9 +16,10 @@ listOfOpcodesRisc32 = ['1111111','1011111','1101111','1110111','1111011','111110
                 '1011101','1011110','1100111','1101011','1101101','1101110','0000001','1000000','1100000','0011010', 
                 '0111010']
 
+listOfOpcodesRisc16 = ['00014','00015']
 listOfInstAvailable = ['Square', 'power', 'logarithm','sin', 'cos', 'euler','tan', 'fact', 'fibonacci']
-listOfFunct3 = ['000','001','010', '100','011', '100', '110','111']
-listOfFunct7 = ['0000000','0000001','0000010','0000100']
+listOfFunct3 = ['---','000','001','010', '100','011', '100', '110','111']
+listOfFunct7 = ['-------','0000000','0000001','0000010','0000100']
 
 '''
 @brief function to display the posible instructions that the user can select to his architecture model
@@ -41,10 +42,10 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
         opcodeLabel = tk.Label(createInstWindow, text="Select an opcode",font = ("Arial Bold", 10), fg= 'black', bg='white')
         
         opcodeSelect = tk.StringVar(createInstWindow)
-        opcodeSelect.set('')                
+        opcodeSelect.set('')             
 
         #define gui elements
-        opcodeMenu = tk.OptionMenu(createInstWindow, opcodeSelect, *listOfOpcodesRisc3232)        
+        opcodeMenu = tk.OptionMenu(createInstWindow, opcodeSelect, *listOfOpcodesRisc32)        
 
         #pack gui elements 
         opcodeLabel.grid(row = 0, column = 0)
@@ -104,8 +105,8 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
         instMenu.grid(row = 4, column = 1)
 
         def verify():
-            listOfVar = [opcodeSelect,operationTypeSelect,funct3Select,funct7Select,instSelect]
-            lsiOfList = [listOfOpcodesRisc3232, listOfOpName, listOfFunct3, listOfFunct7, listOfInstAvailable]
+            listOfVar = [opcodeSelect,funct3Select,funct7Select,instSelect]
+            lsiOfList = [listOfOpcodesRisc32, listOfOpName, listOfFunct3, listOfFunct7, listOfInstAvailable]
             counter = 0
             for i in range(0,len(listOfVar)-1):                
                 opcodeChoosed = listOfVar[i].get()
@@ -115,6 +116,8 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
                 else:
                     messagebox.showinfo(message="please fill in all the indicated")
                     break
+            if(operationTypeSelect.get() != ""):
+                counter+=1
             if(counter == len(listOfVar)-1):
                 x = {}
                 x['name']=instSelect.get()
@@ -126,6 +129,8 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
                 listOfInst.append(x)
                 createInstWindow.destroy()
                 selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,listOfInst)
+            else:
+                messagebox.showinfo(message="please fill in all the indicated")
         def cancel():
             createInstWindow.destroy()
             root.deiconify()
