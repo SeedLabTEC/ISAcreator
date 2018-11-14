@@ -87,6 +87,19 @@ begin
       alu_op = 2'b01;
       jump = 1'b0;
      end
+    4'b1100:
+      begin
+      reg_dst = 1'b1;
+      alu_src = 1'b0;
+      mem_to_reg = 1'b0;
+      reg_write = 1'b1;
+      mem_read = 1'b0;
+      mem_write = 1'b0;
+      beq = 1'b0;
+      bne = 1'b1;
+      alu_op = 2'b00;
+      jump = 1'b0;
+     end
     4'b1101:
       begin
       reg_dst = 1'b1;
