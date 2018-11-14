@@ -84,7 +84,7 @@ def model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOpti
     sizeLabelFP = tk.Label(registersCharacteristicsFrame2, text="Size",font = ("Arial Bold", 10), fg= '#444422', bg='#eeffe6')
     sizeEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='#eeffe6', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
     amountLabelFP = tk.Label(registersCharacteristicsFrame2, text="Amount",font = ("Arial Bold", 10), fg= 'black', bg='#eeffe6')        
-    amountEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='eeffe6', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
+    amountEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='#eeffe6', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
 
     #pack gui elements
     #frame #1
@@ -133,7 +133,7 @@ def model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOpti
             f.e:
                 rs1 size 5, begin 7, ends 11
 '''
-def createInstEncodWindow(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOption, instSize, registerType):
+def createInstEncodWindow(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOption, instSize, registerType, pModel = 0):
     global source1, source2,destination,imm,funct7,funct3
     source1 = 0
     source2 = 0

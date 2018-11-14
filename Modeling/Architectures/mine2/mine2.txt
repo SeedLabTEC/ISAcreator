@@ -1,0 +1,41 @@
+{"operation": "Arithmetic-Logic", "type": "R", "flag": 1}
+{"operation": "Arithmetic-Logic Immediate", "type": "I", "flag": 1}
+{"operation": "Load", "type": "L", "flag": 1}
+{"operation": "Store", "type": "S", "flag": 1}
+{"operation": "FC", "type": "R", "flag": "1"}
+{"endocodification": {"Funct7": "7|25| 31", "OpCode": "7|0|6", "RS1": "5|15|19", "type": "R", "RS2": "5|20|24", "RD": "5|7|11", "Funct3": "3|12|14"}}
+{"endocodification": {"OpCode": "7|0|6", "RS1": "5|15|19", "type": "L", "IMM": "12|20|31", "RD": "5|7|11", "Funct3": "3|12|14"}}
+{"endocodification": {"OpCode": "7|0|6", "RS1": "5|15|19", "type": "I", "IMM": "12|20|31", "RD": "5|7|11", "Funct3": "3|12|14"}}
+{"endocodification": {"OpCode": "7|0|6", "RS1": "5|15|19", "type": "S", "OFF2": "5|7|11", "RS2": "5|20|24", "Funct3": "3|12|14", "OFF1": "12|25|31"}}
+{"registerType": "simple", "size": "32", "amount": "16"}
+{"registerType": "fp", "size": "64", "flag": "0", "amount": "32"}
+{"instructionSize": "32"}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "add", "flag": "0", "Funct3": "000"}}
+{"instruction": {"Funct7": "0100000", "OpCode": "0110011", "type": "R", "name": "sub", "flag": "0", "Funct3": "000"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "xor", "flag": "0", "Funct3": "100"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "or", "flag": "0", "Funct3": "110"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "sll", "flag": "0", "Funct3": "001"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "srl", "flag": "0", "Funct3": "101"}}
+{"instruction": {"Funct7": "0100000", "OpCode": "0110011", "type": "R", "name": "sra", "flag": "0", "Funct3": "101"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0110011", "type": "R", "name": "and", "flag": "0", "Funct3": "111"}}
+{"instruction": {"name": "addi", "OpCode": "0010011", "Funct3": "000", "type": "I", "flag": "0"}}
+{"instruction": {"name": "xori", "OpCode": "0010011", "Funct3": "100", "type": "I", "flag": "0"}}
+{"instruction": {"name": "ori", "OpCode": "0010011", "Funct3": "110", "type": "I", "flag": "0"}}
+{"instruction": {"name": "andi", "OpCode": "0010011", "Funct3": "111", "type": "I", "flag": "0"}}
+{"instruction": {"name": "slli", "OpCode": "0010011", "Funct3": "001", "type": "I", "flag": "0"}}
+{"instruction": {"name": "srli", "OpCode": "0010011", "Funct3": "101", "type": "I", "flag": "0"}}
+{"instruction": {"name": "lbi", "OpCode": "0000011", "Funct3": "000", "type": "L", "flag": "0"}}
+{"instruction": {"name": "lhi", "OpCode": "0000011", "Funct3": "001", "type": "L", "flag": "0"}}
+{"instruction": {"name": "lwi", "OpCode": "0000011", "Funct3": "010", "type": "L", "flag": "0"}}
+{"instruction": {"Funct7": "0000000", "OpCode": "0000011", "type": "L", "name": "lb", "flag": "0", "Funct3": "111"}}
+{"instruction": {"Funct7": "0100000", "OpCode": "0000011", "type": "L", "name": "lbu", "flag": "0", "Funct3": "111"}}
+{"instruction": {"Funct7": "0001000", "OpCode": "0000011", "type": "L", "name": "lh", "flag": "0", "Funct3": "111"}}
+{"instruction": {"Funct7": "0101000", "OpCode": "0000011", "type": "L", "name": "lhu", "flag": "0", "Funct3": "111"}}
+{"instruction": {"Funct7": "0010000", "OpCode": "0000011", "type": "L", "name": "lw", "flag": "0", "Funct3": "111"}}
+{"instruction": {"name": "sbi", "OpCode": "0100011", "Funct3": "000", "type": "S", "flag": "0"}}
+{"instruction": {"name": "shi", "OpCode": "0100011", "Funct3": "001", "type": "S", "flag": "0"}}
+{"instruction": {"name": "swi", "OpCode": "0100011", "Funct3": "010", "type": "S", "flag": "0"}}
+{"instruction": {"name": "sb", "OpCode": "0100011", "Funct3": "100", "type": "S", "flag": "0"}}
+{"instruction": {"name": "sh", "OpCode": "0100011", "Funct3": "101", "type": "S", "flag": "0"}}
+{"instruction": {"name": "sw", "OpCode": "0100011", "Funct3": "110", "type": "S", "flag": "0"}}
+{"instruction": {"name": "Square", "funct7": "-------", "opcode": "1111111", "funct3": "000", "type": "I"}}

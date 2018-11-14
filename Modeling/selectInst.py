@@ -27,7 +27,7 @@ listOfFunct7 = ['-------','0000000','0000001','0000010','0000100']
 @description it will display the instruction by type and the user can select with a checkbox if he/she wants
             that instruction 
 '''
-def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,listOfInst):     
+def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,listOfInst, pModel = 0):     
 
     '''
     @brief for create instructions
@@ -106,19 +106,20 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
 
         def verify():
             listOfVar = [opcodeSelect,funct3Select,funct7Select,instSelect]
-            lsiOfList = [listOfOpcodesRisc32, listOfOpName, listOfFunct3, listOfFunct7, listOfInstAvailable]
+            lsiOfList = [listOfOpcodesRisc32, listOfFunct3, listOfFunct7, listOfInstAvailable]
             counter = 0
-            for i in range(0,len(listOfVar)-1):                
+            for i in range(0,len(listOfVar)):                
                 opcodeChoosed = listOfVar[i].get()
                 if(opcodeChoosed != ""):
                     counter += 1
-                    lsiOfList[i].remove(opcodeChoosed)
+                    if(opcodeChoosed != '---' and opcodeChoosed != '-------'):
+                        lsiOfList[i].remove(opcodeChoosed)
                 else:
                     messagebox.showinfo(message="please fill in all the indicated")
                     break
             if(operationTypeSelect.get() != ""):
                 counter+=1
-            if(counter == len(listOfVar)-1):
+            if(counter == len(listOfVar)+1):
                 x = {}
                 x['name']=instSelect.get()
                 if(operationTypeSelect not in ["I", "S"]):
