@@ -34,9 +34,19 @@ static const MCPhysReg RV32IntRegs[8] = {
   RISCV::a4, RISCV::a5, RISCV::a6, RISCV::a7
 };
 
+static const MCPhysReg RV64IntRegs[8] = {
+  RISCV::a0_64, RISCV::a1_64, RISCV::a2_64, RISCV::a3_64,
+  RISCV::a4_64, RISCV::a5_64, RISCV::a6_64, RISCV::a7_64
+};
+
 static const MCPhysReg FPFRegs[8] = {
   RISCV::fa0, RISCV::fa1, RISCV::fa2, RISCV::fa3,
   RISCV::fa4, RISCV::fa5, RISCV::fa6, RISCV::fa7
+};
+
+static const MCPhysReg FPDRegs[8] = {
+  RISCV::fa0_64, RISCV::fa1_64, RISCV::fa2_64, RISCV::fa3_64,
+  RISCV::fa4_64, RISCV::fa5_64, RISCV::fa6_64, RISCV::fa7_64
 };
 
 void RISCVTargetObjectFile::Initialize(MCContext &Ctx, const TargetMachine &TM) {
@@ -91,7 +101,7 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &tm,
 
     }
   }
-  if(Subtarget.isRV32()){
+  if(Subtarget.isRV64()){
     setOperationAction(ISD::SETCC, MVT::i32, Legal);//only use 32bit setcc
     setOperationAction(ISD::Constant, MVT::i32, Legal);
     setOperationAction(ISD::Constant, MVT::i64, Legal);
@@ -188,11 +198,23 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &tm,
       setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i32, Promote);
       setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i32, Promote);
       setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i32, Promote);
+      //Legal in RV64A
+      setOperationAction(ISD::ATOMIC_SWAP,      MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_ADD,  MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_AND,  MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_OR,   MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_XOR,  MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_MIN,  MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i64, Legal);
+      setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i64, Legal);
       //These are not native instructions
       setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i32, Expand);
+      setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i64, Expand);
       setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i32, Expand);
       setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i32, Expand);
-
+      setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i64, Expand);
     } else {
       //Legal in RV32A
       setOperationAction(ISD::ATOMIC_SWAP,      MVT::i32, Legal);
@@ -204,12 +226,23 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &tm,
       setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i32, Legal);
       setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i32, Legal);
       setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i32, Legal);
-
+      //Expand 64 bit into 32?
+      setOperationAction(ISD::ATOMIC_SWAP,      MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_ADD,  MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_AND,  MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_OR,   MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_XOR,  MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_MIN,  MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i64, Expand);
       //These are not native instructions
-      setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i32, Expand);      
+      setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i32, Expand);
+      setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i64, Expand);
       setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i32, Expand);
       setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i32, Expand);
-
+      setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i64, Expand);
+      setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i64, Expand);
     }
   } else {
     //No atomic ops so expand all
@@ -222,13 +255,27 @@ RISCVTargetLowering::RISCVTargetLowering(const TargetMachine &tm,
     setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i32, Expand);
     setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i32, Expand);
     setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i32, Expand);
+    setOperationAction(ISD::ATOMIC_SWAP,      MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_ADD,  MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_AND,  MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_OR,   MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_XOR,  MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_MIN,  MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_MAX,  MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_UMIN, MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_UMAX, MVT::i64, Expand);
     setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i32, Expand);
+    setOperationAction(ISD::ATOMIC_CMP_SWAP,  MVT::i64, Expand);
     setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i32, Expand);
-    setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i32, Expand);    
+    setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i32, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_NAND, MVT::i64, Expand);
+    setOperationAction(ISD::ATOMIC_LOAD_SUB,  MVT::i64, Expand);
   }
 
   setOperationAction(ISD::SMUL_LOHI, MVT::i32, Expand);
+  setOperationAction(ISD::SMUL_LOHI, MVT::i64, Expand);
   setOperationAction(ISD::UMUL_LOHI, MVT::i32, Expand);
+  setOperationAction(ISD::UMUL_LOHI, MVT::i64, Expand);
 
   // No sign extend instructions for i1
   for (MVT VT : MVT::integer_valuetypes()) {
@@ -785,7 +832,7 @@ LowerFormalArguments(SDValue Chain, CallingConv::ID CallConv, bool IsVarArg,
   //TODO: handle ByVal
 
   if (IsVarArg){
-    auto ArgRegs = IsRV32 ? RV32IntRegs : RV32IntRegs;
+    auto ArgRegs = IsRV32 ? RV32IntRegs : RV64IntRegs;
     unsigned NumRegs = llvm::RISCV::NumArgGPRs;
     unsigned Idx = CCInfo.getFirstUnallocated(ArrayRef<MCPhysReg>(ArgRegs, 8));
     unsigned RegSize = IsRV32 ? 4 : 8;
@@ -1400,6 +1447,10 @@ emitCALL(MachineInstr &MI, MachineBasicBlock *BB) const {
     jump = RISCV::JAL; RA = RISCV::ra; break;
   case RISCV::CALLREG:
     jump = RISCV::JALR; RA = RISCV::ra; break;
+  case RISCV::CALL64:
+    jump = RISCV::JAL64; RA = RISCV::ra_64; break;
+  case RISCV::CALLREG64:
+    jump = RISCV::JALR64; RA = RISCV::ra_64; break;
   default:
     llvm_unreachable("Unexpected call instr type to insert");
   }
@@ -1454,8 +1505,8 @@ emitSelectCC(MachineInstr &MI, MachineBasicBlock *BB) const {
 
   const TargetRegisterInfo *TRI = getTargetMachine().getSubtargetImpl(*F->getFunction())->getRegisterInfo();
   const TargetRegisterClass *RC = MI.getRegClassConstraint(1, TII, TRI);
-  unsigned bne = RC == &RISCV::GR32BitRegClass ? RISCV::BNE : RISCV::BNE;
-  unsigned zero = RC == &RISCV::GR32BitRegClass ? RISCV::zero : RISCV::zero;
+  unsigned bne = RC == &RISCV::GR64BitRegClass ? RISCV::BNE64 : RISCV::BNE;
+  unsigned zero = RC == &RISCV::GR64BitRegClass ? RISCV::zero_64 : RISCV::zero;
   BuildMI(BB, DL, TII->get(bne)).addMBB(sinkMBB).addReg(zero).addReg(MI.getOperand(1).getReg());
 
   //  copy0MBB:
@@ -1524,11 +1575,14 @@ MachineBasicBlock *RISCVTargetLowering::
 EmitInstrWithCustomInserter(MachineInstr &MI, MachineBasicBlock *MBB) const {
   switch (MI.getOpcode()) {
   case RISCV::SELECT_CC:
+  case RISCV::SELECT_CC64:
   case RISCV::FSELECT_CC_F:
   case RISCV::FSELECT_CC_D:
       return emitSelectCC(MI, MBB);
   case RISCV::CALL:
   case RISCV::CALLREG:
+  case RISCV::CALL64:
+  case RISCV::CALLREG64:
       return emitCALL(MI, MBB);
   default:
     llvm_unreachable("Unexpected instr type to insert");

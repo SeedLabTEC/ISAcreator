@@ -28,6 +28,8 @@ def FeatureD : SubtargetFeature<"d", "HasD", "true",
 
 def FeatureRV32 : SubtargetFeature<"rv32", "RISCVArchVersion", "RV32", 
                                    "RV32 ISA Support">;
+def FeatureRV64 : SubtargetFeature<"rv64", "RISCVArchVersion", "RV64", 
+                                   "RV64 ISA Support">;
 
 def FeatureSoftFloat : SubtargetFeature<"soft-float", "UseSoftFloat", "true",
                                         "Use software floating point features.">;
@@ -41,6 +43,9 @@ class Proc<string Name, list<SubtargetFeature> Features>
 
 def : Proc<"RV32I", [FeatureRV32]>;
 def : Proc<"RV32IMAFD", [FeatureRV32,FeatureM,FeatureA,FeatureF,FeatureD]>;
+def : Proc<"RV64I", [FeatureRV64]>;
+def : Proc<"RV64IMAFD", [FeatureRV64,FeatureM,FeatureA,FeatureF,FeatureD]>;
+def : Proc<"Rocket", [FeatureRV64,FeatureM,FeatureA,FeatureF,FeatureD]>;
 
 //===----------------------------------------------------------------------===//
 // Register file description

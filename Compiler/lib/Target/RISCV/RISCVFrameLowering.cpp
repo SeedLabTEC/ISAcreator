@@ -88,10 +88,10 @@ void RISCVFrameLowering::emitPrologue(MachineFunction &MF, MachineBasicBlock &MB
   MachineBasicBlock::iterator MBBI = MBB.begin();
   DebugLoc dl = MBBI != MBB.end() ? MBBI->getDebugLoc() : DebugLoc();
   const RISCVSubtarget &STI = MF.getSubtarget<RISCVSubtarget>();
-  unsigned SP = STI.isRV32() ? RISCV::sp : RISCV::sp;
-  unsigned FP = STI.isRV32() ? RISCV::fp : RISCV::fp;
-  unsigned ZERO = STI.isRV32() ? RISCV::zero : RISCV::zero;
-  unsigned ADDu = STI.isRV32() ? RISCV::ADD : RISCV::ADD;
+  unsigned SP = STI.isRV64() ? RISCV::sp_64 : RISCV::sp;
+  unsigned FP = STI.isRV64() ? RISCV::fp_64 : RISCV::fp;
+  unsigned ZERO = STI.isRV64() ? RISCV::zero_64 : RISCV::zero;
+  unsigned ADDu = STI.isRV64() ? RISCV::ADD64 : RISCV::ADD;
 
   // First, compute final stack size.
   uint64_t StackSize = MFI->getStackSize();
@@ -183,10 +183,10 @@ void RISCVFrameLowering::emitEpilogue(MachineFunction &MF,
     *static_cast<const RISCVInstrInfo*>(MF.getSubtarget().getInstrInfo());
   DebugLoc dl = MBBI->getDebugLoc();
   const RISCVSubtarget &STI = MF.getSubtarget<RISCVSubtarget>();
-  unsigned SP   = STI.isRV32() ? RISCV::sp : RISCV::sp;
-  unsigned FP   = STI.isRV32() ? RISCV::fp : RISCV::fp;
-  unsigned ZERO = STI.isRV32() ? RISCV::zero : RISCV::zero;
-  unsigned ADDu = STI.isRV32() ? RISCV::ADD : RISCV::ADD;
+  unsigned SP   = STI.isRV64() ? RISCV::sp_64 : RISCV::sp;
+  unsigned FP   = STI.isRV64() ? RISCV::fp_64 : RISCV::fp;
+  unsigned ZERO = STI.isRV64() ? RISCV::zero_64 : RISCV::zero;
+  unsigned ADDu = STI.isRV64() ? RISCV::ADD64 : RISCV::ADD;
 
   // if framepointer enabled, restore the stack pointer.
   if (hasFP(MF)) {

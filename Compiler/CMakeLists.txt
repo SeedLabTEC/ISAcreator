@@ -1,8 +1,3 @@
-
-# cmake -DCMAKE_INSTALL_PREFIX=/opt/riscv -DLLVM_TARGETS_TO_BUILD="RISCV" ../
-# make -j4
-# make install
-
 # See docs/CMake.html for instructions about how to build LLVM with CMake.
 
 cmake_minimum_required(VERSION 3.4.3)
@@ -747,9 +742,9 @@ endif()
 
 add_subdirectory(runtimes)
 
-#if( LLVM_INCLUDE_EXAMPLES )
-#  add_subdirectory(examples)
-#endif()
+if( LLVM_INCLUDE_EXAMPLES )
+  add_subdirectory(examples)
+endif()
 
 if( LLVM_INCLUDE_TESTS )
   if(EXISTS ${LLVM_MAIN_SRC_DIR}/projects/test-suite AND TARGET clang)

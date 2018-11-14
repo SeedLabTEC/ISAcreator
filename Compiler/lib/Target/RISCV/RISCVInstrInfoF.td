@@ -9,10 +9,12 @@
 
 let mayLoad = 1 in {
   def FLW : InstLoad <"flw" , 0b0000111, 0b010, loadf32,  FP32, mem>, Requires<[HasF,IsRV32]>; 
+  def FLW64 : InstLoad <"flw" , 0b0000111, 0b010, loadf32,  FP32, mem64>, Requires<[HasF,IsRV64]>; 
 }
 
 let mayStore = 1 in {
   def FSW : InstStore <"fsw" , 0b0100111, 0b010, store, FP32, mem>, Requires<[HasF,IsRV32]>; 
+  def FSW64 : InstStore <"fsw" , 0b0100111, 0b010, store, FP32, mem64>, Requires<[HasF,IsRV64]>; 
 }
 
 multiclass  FPBinOps<string name, SDPatternOperator op1, bits<5> funct5, bits<2> fmt> {
@@ -79,6 +81,15 @@ defm FCVT_S_WU : FPConvOps<"fcvt.s.wu", uint_to_fp, FP32, GR32, 0b01111, 0b00>, 
 def :Pat<(i32 (fp_to_uint FP32:$src)), (FCVT_WU_S_RTZ FP32:$src)>;
 def :Pat<(i32 (fp_to_sint FP32:$src)), (FCVT_W_S_RTZ FP32:$src)>;
 
+//RV64F
+defm FCVT_L_S  : FPConvOps<"fcvt.l.s",  null_frag, GR64, FP32, 0b01000, 0b00>, Requires<[HasF,IsRV64]>;
+defm FCVT_LU_S : FPConvOps<"fcvt.lu.s", null_frag, GR64, FP32, 0b01001, 0b00>, Requires<[HasF,IsRV64]>;
+defm FCVT_S_L  : FPConvOps<"fcvt.s.l",  sint_to_fp, FP32, GR64, 0b01100, 0b00>, Requires<[HasF,IsRV64]>;
+defm FCVT_S_LU : FPConvOps<"fcvt.s.lu", uint_to_fp, FP32, GR64, 0b01101, 0b00>, Requires<[HasF,IsRV64]>;
+//make sure we get the right rounding mode
+def :Pat<(i64 (fp_to_uint FP32:$src)), (FCVT_LU_S_RTZ FP32:$src)>;
+def :Pat<(i64 (fp_to_sint FP32:$src)), (FCVT_L_S_RTZ FP32:$src)>;
+
 //Sign injection
 class InstSign<string mnemonic, bits<7> op, bits<5> funct5, bits<2> fmt, bits<3> rm,
                SDPatternOperator operator, RegisterOperand cls1, 
@@ -127,6 +138,8 @@ def : Pat<(fabs FP32:$src), (FSGNJX_S FP32:$src, FP32:$src)>, Requires<[HasF]>;
 //Move instruction (bitcasts)
 def FMV_X_S : InstConv<"fmv.x.s", "", 0b1010011, 0b11100, 0b00, 0b000, bitconvert, GR32, FP32>, Requires<[HasF]>;
 def FMV_S_X : InstConv<"fmv.s.x", "", 0b1010011, 0b11110, 0b00, 0b000, bitconvert, FP32, GR32>, Requires<[HasF]>;
+def FMV_X_S64 : InstConv<"fmv.x.s", "", 0b1010011, 0b11100, 0b00, 0b000, bitconvert, GR64, FP32>, Requires<[HasF, IsRV64]>;
+def FMV_S_X64 : InstConv<"fmv.s.x", "", 0b1010011, 0b11110, 0b00, 0b000, bitconvert, FP32, GR64>, Requires<[HasF, IsRV64]>;
 
 //Floating point comparisons
 def FEQ_S : InstSign<"feq.s", 0b1010011, 0b10101, 0b00, 0b000, setoeq, GR32, FP32>, Requires<[HasF]>;

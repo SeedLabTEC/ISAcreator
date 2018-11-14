@@ -59,8 +59,8 @@ void RISCVInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
                                      MachineBasicBlock &MBB,
                                      MachineBasicBlock::iterator I) const {
   DebugLoc DL = I != MBB.end() ? I->getDebugLoc() : DebugLoc();
-  unsigned ADD =  STI.isRV32() ? RISCV::ADD : RISCV::ADD;
-  unsigned ADDI = STI.isRV32() ? RISCV::ADDI : RISCV::ADDI;
+  unsigned ADD =  STI.isRV64() ? RISCV::ADD64 : RISCV::ADD;
+  unsigned ADDI = STI.isRV64() ? RISCV::ADDI64 : RISCV::ADDI;
 
   if (isInt<12>(Amount))// addi sp, sp, amount
     BuildMI(MBB, I, DL, get(ADDI), SP).addReg(SP).addImm(Amount);
@@ -74,7 +74,7 @@ void RISCVInstrInfo::adjustStackPtr(unsigned SP, int64_t Amount,
 unsigned RISCVInstrInfo::GetInstSizeInBytes(MachineInstr *I) const {
   //Since we don't have variable length instructions this just looks at the subtarget
   //TODO:check for C
-  return (STI.isRV32()) ? 4 : 4;
+  return (STI.isRV64() || STI.isRV32()) ? 4 : 4;
 }
 
 bool RISCVInstrInfo::analyzeBranch(MachineBasicBlock &MBB,
@@ -357,33 +357,59 @@ RISCVInstrInfo::copyPhysReg(MachineBasicBlock &MBB,
   unsigned Opcode;
   //when we are copying a phys reg we want the bits for fp
   if (RISCV::GR32BitRegClass.contains(DestReg, SrcReg))
-    Opcode = STI.isRV32() ? RISCV::ADDI : RISCV::ADDI;
+    Opcode = STI.isRV64() ? RISCV::ADDIW : RISCV::ADDI;
+  else if (RISCV::GR64BitRegClass.contains(DestReg, SrcReg))
+    Opcode = RISCV::ADDI64;
   else if (RISCV::FP32BitRegClass.contains(DestReg, SrcReg)){
     Opcode = RISCV::FSGNJ_S;
     BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
       .addReg(SrcReg, getKillRegState(KillSrc))
       .addReg(SrcReg, getKillRegState(KillSrc));
     return;
-  }else if(RISCV::FP32BitRegClass.contains(SrcReg) &&
-           RISCV::GR32BitRegClass.contains(DestReg)){
-    Opcode = STI.isRV32() ? RISCV::FMV_X_S : RISCV::FMV_X_S;
+  }else if (RISCV::FP64BitRegClass.contains(DestReg, SrcReg)) {
+    Opcode = RISCV::FSGNJ_D;
     BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
+      .addReg(SrcReg, getKillRegState(KillSrc))
       .addReg(SrcReg, getKillRegState(KillSrc));
     return;
   }else if(RISCV::FP32BitRegClass.contains(SrcReg) &&
            RISCV::GR32BitRegClass.contains(DestReg)){
-    Opcode = RISCV::FMV_X_S;
+    Opcode = STI.isRV64() ? RISCV::FMV_X_S64 : RISCV::FMV_X_S;
+    BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
+      .addReg(SrcReg, getKillRegState(KillSrc));
+    return;
+  }else if(RISCV::FP32BitRegClass.contains(SrcReg) &&
+           RISCV::GR64BitRegClass.contains(DestReg)){
+    Opcode = RISCV::FMV_X_S64;
+    BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
+      .addReg(SrcReg, getKillRegState(KillSrc));
+    return;
+  }else if(RISCV::FP64BitRegClass.contains(SrcReg) &&
+           RISCV::GR64BitRegClass.contains(DestReg)){
+    Opcode = RISCV::FMV_X_D;
     BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
       .addReg(SrcReg, getKillRegState(KillSrc));
     return;
   }else if(RISCV::FP32BitRegClass.contains(DestReg) &&
            RISCV::GR32BitRegClass.contains(SrcReg)){
-    Opcode = STI.isRV32() ? RISCV::FMV_S_X : RISCV::FMV_S_X;
+    Opcode = STI.isRV64() ? RISCV::FMV_S_X64 : RISCV::FMV_S_X;
+    BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
+      .addReg(SrcReg, getKillRegState(KillSrc));
+    return;
+  }else if(RISCV::FP64BitRegClass.contains(DestReg) &&
+           RISCV::GR64BitRegClass.contains(SrcReg)){
+    Opcode = RISCV::FMV_D_X;
+    BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
+      .addReg(SrcReg, getKillRegState(KillSrc));
+    return;
+  }else if(RISCV::FP64BitRegClass.contains(DestReg) &&
+           RISCV::FP32BitRegClass.contains(SrcReg)){
+    Opcode = RISCV::FCVT_D_S_RDY;
     BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
       .addReg(SrcReg, getKillRegState(KillSrc));
     return;
   }else if(RISCV::FP32BitRegClass.contains(DestReg) &&
-           RISCV::FP32BitRegClass.contains(SrcReg)){
+           RISCV::FP64BitRegClass.contains(SrcReg)){
     Opcode = RISCV::FCVT_S_D_RDY;
     BuildMI(MBB, MBBI, DL, get(Opcode), DestReg)
       .addReg(SrcReg, getKillRegState(KillSrc));
@@ -483,53 +509,67 @@ bool RISCVInstrInfo::isBranch(const MachineInstr *MI, SmallVectorImpl<MachineOpe
                                 const MachineOperand *&Target) const {
   switch (MI->getOpcode()) {
   case RISCV::J:
+  case RISCV::J64:
   case RISCV::JAL:
+  case RISCV::JAL64:
   case RISCV::JALR:
+  case RISCV::JALR64:
     Cond[0].setImm(RISCV::CCMASK_ANY);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BEQ:
+  case RISCV::BEQ64:
     Cond[0].setImm(RISCV::CCMASK_CMP_EQ);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BNE:
+  case RISCV::BNE64:
     Cond[0].setImm(RISCV::CCMASK_CMP_NE);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BLT:
+  case RISCV::BLT64:
     Cond[0].setImm(RISCV::CCMASK_CMP_LT);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BLTU:
+  case RISCV::BLTU64:
     Cond[0].setImm(RISCV::CCMASK_CMP_LT | RISCV::CCMASK_CMP_UO);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BGE:
+  case RISCV::BGE64:
     Cond[0].setImm(RISCV::CCMASK_CMP_GE);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BGEU:
+  case RISCV::BGEU64:
     Cond[0].setImm(RISCV::CCMASK_CMP_GE | RISCV::CCMASK_CMP_UO);
     Target = &MI->getOperand(0);
     return true;
 //synth
   case RISCV::BGT:
+  case RISCV::BGT64:
     Cond[0].setImm(RISCV::CCMASK_CMP_GT);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BGTU:
+  case RISCV::BGTU64:
     Cond[0].setImm(RISCV::CCMASK_CMP_GT | RISCV::CCMASK_CMP_UO);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BLE:
+  case RISCV::BLE64:
     Cond[0].setImm(RISCV::CCMASK_CMP_LE);
     Target = &MI->getOperand(0);
     return true;
   case RISCV::BLEU:
+  case RISCV::BLEU64:
     Cond[0].setImm(RISCV::CCMASK_CMP_LE | RISCV::CCMASK_CMP_UO);
     Target = &MI->getOperand(0);
     return true;
  
+
   default:
     assert(!MI->getDesc().isBranch() && "Unknown branch opcode");
     return false;
@@ -540,14 +580,17 @@ void RISCVInstrInfo::getLoadStoreOpcodes(const TargetRegisterClass *RC,
                                            unsigned &LoadOpcode,
                                            unsigned &StoreOpcode) const {
   if (RC == &RISCV::GR32BitRegClass ){
-    LoadOpcode = STI.isRV32() ? RISCV::LW : RISCV::LW;
-    StoreOpcode = STI.isRV32() ? RISCV::SW : RISCV::SW;
+    LoadOpcode = STI.isRV64() ? RISCV::LW64_32 : RISCV::LW;
+    StoreOpcode = STI.isRV64() ? RISCV::SW64_32 : RISCV::SW;
+  } else if (RC == &RISCV::GR64BitRegClass) {
+    LoadOpcode = RISCV::LD;
+    StoreOpcode = RISCV::SD;
   } else if (RC == &RISCV::FP32BitRegClass) {
-    LoadOpcode = STI.isRV32() ? RISCV::FLW : RISCV::FLW;
-    StoreOpcode = STI.isRV32() ? RISCV::FSW : RISCV::FSW;
+    LoadOpcode = STI.isRV64() ? RISCV::FLW64 : RISCV::FLW;
+    StoreOpcode = STI.isRV64() ? RISCV::FSW64 : RISCV::FSW;
   } else if (RC == &RISCV::FP64BitRegClass) {
-    LoadOpcode = STI.isRV32() ? RISCV::FLD : RISCV::FLD;
-    StoreOpcode = STI.isRV32() ? RISCV::FSD : RISCV::FSD;
+    LoadOpcode = STI.isRV64() ? RISCV::FLD64 : RISCV::FLD;
+    StoreOpcode = STI.isRV64() ? RISCV::FSD64 : RISCV::FSD;
   } else
     llvm_unreachable("Unsupported regclass to load or store");
 }
@@ -570,14 +613,14 @@ void RISCVInstrInfo::loadImmediate(MachineBasicBlock &MBB,
   DebugLoc DL = MBBI != MBB.end() ? MBBI->getDebugLoc() : DebugLoc();
   unsigned Opcode;
   MachineRegisterInfo &RegInfo = MBB.getParent()->getRegInfo();
-  const TargetRegisterClass *RC = STI.isRV32() ?
+  const TargetRegisterClass *RC = STI.isRV64() ?
     &RISCV::GR64BitRegClass : &RISCV::GR32BitRegClass;
-  unsigned ZERO = STI.isRV32() ? RISCV::zero : RISCV::zero;
+  unsigned ZERO = STI.isRV64() ? RISCV::zero_64 : RISCV::zero;
 
   //create virtual reg to store immediate
   *Reg = RegInfo.createVirtualRegister(RC);
   if (isInt<12>(Value)){
-    Opcode = STI.isRV32() ? RISCV::ADDI : RISCV::ADDI;
+    Opcode = STI.isRV64() ? RISCV::ADDI64 : RISCV::ADDI;
     BuildMI(MBB, MBBI, DL, get(Opcode), *Reg).addReg(ZERO).addImm(Value);
   } else {
   //use LI to let assembler load immediate best

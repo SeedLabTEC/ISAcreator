@@ -13,8 +13,8 @@
 
  def IsRV32 :    Predicate<"Subtarget.isRV32()">,
                  AssemblerPredicate<"FeatureRV32">; 
- //def IsRV64 :    Predicate<"Subtarget.isRV64()">,
- //                AssemblerPredicate<"FeatureRV64">; 
+ def IsRV64 :    Predicate<"Subtarget.isRV64()">,
+                 AssemblerPredicate<"FeatureRV64">; 
  def HasM   :    Predicate<"Subtarget.hasM()">,
                  AssemblerPredicate<"FeatureM">; 
  def HasF   :    Predicate<"Subtarget.hasF()">,
@@ -405,13 +405,26 @@ def SBREAK: InstRISCV<4, (outs), (ins), "sbreak", []>{
         let Inst{6 - 0} = 0b1110011;
       }
 
+//rdcycle Rd
+def RDCYCLE: InstISYS<"rdcycle", 0b110000000000, GR32>;
+//rdcycleh Rd
+def RDCYCLEH: InstISYS<"rdcycleh", 0b110010000000, GR32>;
+//rdtime Rd
+def RDTIME: InstISYS<"rdtime", 0b110000000001, GR32>;
+//rdtimeh Rd
+def RDTIMEH: InstISYS<"rdtimeh", 0b110010000001, GR32>;
+//rdinstret Rd
+def RDINSTRET: InstISYS<"rdinstret", 0b110000000010, GR32>;
+//rdinstreth Rd
+def RDINSTRETH: InstISYS<"rdinstreth", 0b110010000010, GR32>;
+
 //===----------------------------------------------------------------------===//
 // Subtarget features
 //===----------------------------------------------------------------------===//
 
-//include "RISCVInstrInfoRV64.td"
+include "RISCVInstrInfoRV64.td"
 include "RISCVInstrInfoM.td"
 include "RISCVInstrInfoF.td"
-//include "RISCVInstrInfoA.td"
+include "RISCVInstrInfoA.td"
 include "RISCVInstrInfoD.td"
 
