@@ -1,6 +1,6 @@
 ## Creando un backend con LLVM para una arquitectura RISC-V 
 
-[basado en cpu0 de Chen Chung-Shu](http://jonathan2251.github.io/lbd/about.html)
+[basado en cpu0 de Chen Chung-Shu](https://jonathan2251.github.io/lbd/about.html) y [documentación de LLVM](https://www.llvm.org/docs/WritingAnLLVMBackend.html)
 
 <p align="justify"> LLVM es una es una infraestructura para desarrollar compiladores, diseñada para optimizar el tiempo de enlazado, de compilación y de ejecución de cualquier lenguaje de programación definido por el usuario. </p>
 
@@ -40,9 +40,11 @@
 
 <p align="justify"> Se va a trabajar sobre un compilador basado en <a href="https://github.com/riscv/riscv-llvm.git"> RISC-V de LLVM</a> , esto facilitará el trabajo de agregar casi 5000 líneas de código y se explicará cada uno de los archivos que se deben modificar para agregar o quitar destinos, modificar el ISA y la generación de código.</p>
 
+<p align="justify">Para la compilación se hace uso de cmake, anteriormente se usaba makefiles pero se le dejó de dar soporte y ahora LLVM usa cmake. </p>
+
 #### Representación intermedia de LLVM (IR)
 
-<p align="justify"> Uno de los aspecto más importante de su diseño del compilador es la representación intermedia de LLVM (IR), es la forma que utiliza para representar el código en el compilador. LLVM IR está diseñado para alojar análisis y transformaciones de nivel medio, se explica el <a href="http://releases.llvm.org/7.0.0/docs/CodeGenerator.html">capítulo de optimización de un compilador</a>. Fue diseñado con muchos objetivos específicos, incluyendo el soporte de optimizaciones de tiempo de ejecución, optimizaciones de funciones, análisis de todo el programa y transformaciones agresivas de reestructuración, etc. Sin embargo, el aspecto más importante de esto es que se define como un lenguaje de primera clase con semántica bien definida.  </p>
+<p align="justify"> Uno de los aspecto más importante de su diseño del compilador es la representación intermedia de LLVM (IR), es la forma que utiliza para representar el código en el compilador. LLVM IR está diseñado para alojar análisis y transformaciones de nivel medio, se explica el <a href="https://llvm.org/docs/LangRef.html">capítulo de optimización de un compilador</a>. Fue diseñado con muchos objetivos específicos, incluyendo el soporte de optimizaciones de tiempo de ejecución, optimizaciones de funciones, análisis de todo el programa y transformaciones agresivas de reestructuración, etc. Sin embargo, el aspecto más importante de esto es que se define como un lenguaje de primera clase con semántica bien definida.  </p>
 
 Un ejemplo simple de un archivo .ll :
 
@@ -94,21 +96,21 @@ que proporciona dos formas diferentes de agregar números enteros.
 
 #### Archivos de descripción de destino de LLVM: .td
 
-En los archivos .td de LLVM es dónde se describe el ISA y son procesados por la herramienta tblgen.
+<p align="justify"> En los archivos *.td de LLVM es dónde se describe el ISA y son procesados por la herramienta tblgen que genera *.inc . Para cada archivo .td se tienen .h y .cpp con código en C++ para el manejo de las distintas descripciones de la arquitectura.</p>
 
-El idioma utilizado en los archivos .td es un lenguaje de descripción de destino (hardware) que permite a los ingenieros de compilación backend de llvm definir la transformación para LLVM IR y las instrucciones de la máquina de sus CPU. En la interfaz, las herramientas de desarrollo del compilador proporcionan el "parser generator" para el desarrollo del compilador; en el backend, proporcionan el generador de código de máquina para el desarrollo, tal como se muestra en la figura 5.
+<p align="justify"> El idioma utilizado en los archivos .td es un lenguaje de descripción de destino (hardware) que permite a los ingenieros de compilación backend de llvm definir la transformación para LLVM IR y las instrucciones de la máquina de sus CPU. En la interfaz, las herramientas de desarrollo del compilador proporcionan el "parser generator" para el desarrollo del compilador; en el backend, proporcionan el generador de código de máquina para el desarrollo, tal como se muestra en la figura 5.</p>
 
 <p align="center"> <img src="f5.png"> </p>
 
 <p align="center"> Figura 5. Descripción de la generación de código máquina en LLVM </p>
 
-Los archivos que se deben modificar y/o crear .td son varios, se explicará cada uno de ellos con detalle.
+<p align="justify"> Los archivos que se deben modificar y/o crear .td son varios, se explicará cada uno de ellos con detalle.</p>
 
-La estructura destino está en target.td, que para este caso es RISCV.td
+La estructura destino está en target.td, que para este caso es **RISCV.td**
 
-Este archivo está en el directorio lib/target y ahí es donde se encuentran todos los destinos a usar por el backend como x86, ARM, MIPS, PowerPC, etc. La carpeta lib está sobre el directorio en el cuál se va a trabajar, no es /lib del sistema operativo.
+<p align="justify"> Este archivo está en el directorio lib/target y ahí es donde se encuentran todos los destinos a usar por el backend como x86, ARM, MIPS, PowerPC, etc. La carpeta lib está sobre el directorio en el cuál se va a trabajar, no es /lib del sistema operativo. </p>
 
-Dentro de .../target/ se encuentran varios archivos cmake y de construcción que usa LLVM para registrar un nuevo destino, específicamente en el archivo LLVMBuild.txt se debe ingresar en la sección de subdirectorio la carpeta del destino como RISCV o X86 por ejemplo.
+Dentro de .../target/ se encuentran varios archivos cmake y de construcción que usa LLVM para registrar un nuevo destino, específicamente en el archivo **LLVMBuild.txt** se debe ingresar en la sección de subdirectorio la carpeta del destino como RISCV o X86 por ejemplo.
 
 ```makefile
 ;===- ./lib/Target/LLVMBuild.txt -------------------------------*- Conf -*--===;
@@ -141,7 +143,7 @@ subdirectories =
 
 Dentro de .../target/RISCV que será el directorio a trabajar se encuentran todos los archivos .td que se deben modificar.
 
-En el archivo RISCV.td se define la interfaz SubtargetFeature, donde los primeros 4 parámetros de cadena de la interfaz son un nombre de característica, un atributo establecido por la característica, el valor del atributo y una descripción de la característica.
+En el archivo **RISCV.td** se define la interfaz SubtargetFeature, donde los primeros 4 parámetros de cadena de la interfaz son un nombre de característica, un atributo establecido por la característica, el valor del atributo y una descripción de la característica.
 
 ```makefile
 ...
@@ -149,7 +151,7 @@ def FeatureDr  : SubtargetFeature<"dr", "HasDR", "true","Tardis">;
 ...
 ```
 
-Es RISCV.td se incluye a Target.td que es de LLVM, se agregan también los nombres de los archivos que van a contener la descripción de las instrucciones, los registros, el generador de ensamblador y la interfaz SubtargetFeature.
+Es **RISCV.td** se incluye a **Target.td** que es de LLVM, se agregan también los nombres de los archivos que van a contener la descripción de las instrucciones, los registros, el generador de ensamblador y la interfaz SubtargetFeature.
 
 ```makefile
 //===-- RISCV.td - Describe the RISCV target machine ---------*- tblgen -*-===//
@@ -177,7 +179,7 @@ def FeatureA : SubtargetFeature<"a", "HasA", "true",
                                 "Supports Atomic Instructions.">;
 ```
 
-En RISCVInstrInfo.td se describen las instrucciones de propósito general como add, stl, sub; en cada instrucción se debe definir el nombre, el formato, los bits para cada parte según se definió en el ISA al inicio.
+En **RISCVInstrInfo.td**se describen las instrucciones de propósito general como add, stl, sub; en cada instrucción se debe definir el nombre, el formato, los bits para cada parte según se definió en el ISA al inicio.
 
 ```makefile
 /*******************
@@ -196,7 +198,7 @@ def ORI : InstI<"ori" , 0b0010011, 0b110       , or , GR32, GR32, imm32sx12>;
 def ANDI: InstI<"andi", 0b0010011, 0b111       , and, GR32, GR32, imm32sx12>;
 ```
 
-En RISCVInstrFormats.td se definen los formatos de las instrucciones.
+En **RISCVInstrFormats.td** se definen los formatos de las instrucciones.
 
 ```makefile
 //===----------------------------------------------------------------------===//
@@ -261,9 +263,48 @@ class InstR<string mnemonic, bits<7> op, bits<7> funct7, bits<3> funct3,
 }
 ```
 
+En **RISCVRegisterInfo.td** se encuentran definidos los distintos registros, dónde se define la clase GPR32 usada para los registros de propósito general. En caso de querer usar menos de los 32 registros se deben eliminar de este archivo.
 
+```makefile
+//===----------------------------------------------------------------------===//
+// General-purpose registers
+//===----------------------------------------------------------------------===//
+//RV32 general purpose regs
+class GPR32<bits<16> num, string n> : RISCVReg<n> {
+  let HWEncoding = num;
+}
 
+// General-purpose registers
+//ABI Names
+def zero : GPR32<0, "x0">, DwarfRegNum<[0]>;
+def ra   : GPR32<1, "x1">, DwarfRegNum<[1]>;
+def sp   : GPR32<2, "x2">, DwarfRegNum<[2]>;
+def gp   : GPR32<3, "x3">, DwarfRegNum<[3]>;
+def tp   : GPR32<4, "x4">, DwarfRegNum<[4]>;
+def t0   : GPR32<5, "x5">, DwarfRegNum<[5]>;
+def t1   : GPR32<6, "x6">, DwarfRegNum<[6]>;
+def t2   : GPR32<7, "x7">, DwarfRegNum<[7]>;
+def fp   : GPR32<8, "x8">, DwarfRegNum<[8]>;
+def s0   : GPR32<8, "x8">, DwarfRegNum<[8]>{
+...
 
+//temp registers
+def t3   : GPR32<28,"x28">, DwarfRegNum<[28]>;
+def t4   : GPR32<29,"x29">, DwarfRegNum<[29]>;
+def t5   : GPR32<30,"x30">, DwarfRegNum<[30]>;
+def t6   : GPR32<31,"x31">, DwarfRegNum<[31]>;
+...
+```
+
+En **RISCVISelLowering.cpp**, **RISCVISelLowering.h** y  **RISCVInstrInfo.td** se tiene la implementación DAG de la cuál se hablará más adelante.
+
+<p align="justify"> La clase RISCVSubtarget proporciona las interfaces getInstrInfo (), getFrameLowering (), ... , para obtener otras clases de RISCV. La mayoría de las clases como RISCVInstrInfo o RISCVRegisterInfo, tienen una referencia secundaria que les permite acceder a distintas clases a través de la interfaz RISCVSubtarget. Una vez que obtenga la clase Subtarget, el código de backend puede acceder a otras clases a través de ella. </p>
+
+<p align="justify"> El backend de Mips utiliza el nombre de los archivos/clases Mips16, MipsSE y Mips64 para definir clases para la arquitectura de 16, 32 y 64 bits, respectivamente. </p>
+
+<p align="justify"> Todas las clases generadas por TableGen del backend RISCV están en el directorio cmake_debug_build/lib/Target/RISCV/.inc . A través del mecanismo de herencia de C++, TableGen proporciona a los programadores de backend una forma flexible de usar su código generado.</p>
+
+El llvm-tblgen genera **RISCVGenInstrInfo.inc** en base a la información de **RISCVInstrInfo.td** y **RISCVInstrInfo.h**. Con TabelGen, el tamaño del código en el backend se reduce porque revisa patrones repetidos en el desarrollo del compilador. Esto se explica en las dos secciones de DAG y Selección de instrucciones más adelante.
 
 #### Secuencia de generación de código de LLVM
 
@@ -284,4 +325,156 @@ store i32 %b, i32* %c ; store %b contents to %c point to, %b isi32 type virtual
             ;  memory value to %a1
 %a3 = add i32 %a2, 1  ; add %a2 and 1 and save to %a3
 ```
+
+#### Forma SSA
+
+##### Selección de instrucciones
+
+```pseudocode
+// In this stage, transfer the llvm opcode into machine opcode, but the operand
+//  still is llvm virtual operand.
+    store i16 0, i16* %a // store 0 of i16 type to where virtual register %a
+                         //  point to.
+=>  st i16 0, i32* %a    // Use RISCV backend instruction st instead of IR store.
+```
+
+##### Formación y calendarización.
+
+```pseudocode
+// In this stage, reorder the instructions sequence for optimization in
+//  instructions cycle or in register pressure.
+    st i32 %a, i16* %b,  i16 5 // st %a to *(%b+5)
+    st %b, i32* %c, i16 0
+    %d = ld i32* %c
+
+// Transfer above instructions order as follows. In RISC CPU of Mips, the ld
+//  %c uses the result of the previous instruction st %c. So it must waits 1
+//  cycle. Meaning the ld cannot follow st immediately.
+=>  st %b, i32* %c, i16 0
+    st i32 %a, i16* %b,  i16 5
+    %d = ld i32* %c, i16 0
+// If without reorder instructions, a instruction nop which do nothing must be
+//  filled, contribute one instruction cycle more than optimization. (Actually,
+//  Mips is scheduled with hardware dynamically and will insert nop between st
+//  and ld instructions if compiler didn't insert nop.)
+    st i32 %a, i16* %b,  i16 5
+    st %b, i32* %c, i16 0
+    nop
+    %d = ld i32* %c, i16 0
+
+// Minimum register pressure
+//  Suppose %c is alive after the instructions basic block (meaning %c will be
+//  used after the basic block), %a and %b are not alive after that.
+// The following no-reorder-version need 3 registers at least
+    %a = add i32 1, i32 0
+    %b = add i32 2, i32 0
+    st %a,  i32* %c, 1
+    st %b,  i32* %c, 2
+
+// The reorder version needs 2 registers only (by allocate %a and %b in the same
+//  register)
+=> %a = add i32 1, i32 0
+    st %a,  i32* %c, 1
+    %b = add i32 2, i32 0
+    st %b,  i32* %c, 2
+```
+
+#### Forma DSA (Dynamic Single Assignment)
+
+```c
+for (int i = 0; i < 1000; i++) {
+  t = g(a[i]);
+  b[i] = f(t);
+}
+```
+
+```pseudocode
+%pi = alloca i32
+  store i32 0, i32* %pi
+  %i = load i32, i32* %pi
+  %cmp = icmp slt i32 %i, 1000
+  br i1 %cmp, label %true, label %end
+true:
+  %a_idx = add i32 %i, i32 %a_addr
+  %val0 = load i32, i32* %a_idx
+  %t = call i64 %g(i32 %val0)
+  %val1 = call i64 %f(i32 %t)
+  %b_idx = add i32 %i, i32 %b_addr
+  store i32 %val1, i32* %b_idx
+end:
+```
+
+#### Forma DAG (Directed Acyclic Graph)
+
+Muchas técnicas importantes para la optimización inician al transformar un bloque básico en DAG
+
+<p align="center"> <img src="f7.png"> </p>
+
+<p align="center"> Figura 7. Ejemplo de DAG </p>
+
+Para la selección de instrucciones de la máquina, la mejor solución es representar la instrucción de LLVM IR y de máquina por DAG.
+
+<p align="center"> <img src="f8.png"> </p>
+
+<p align="center"> Figura 8. Representación de instrucción DAG </p>
+
+Tal y como se analizó antes, en el archivo **RISCVInstrFormats.td** se indican los formatos de instrucciones y se hace uso de DAG para su representación.
+
+```pseudocode
+...
+//U-Type
+class InstU<bits<7> op, dag outs, dag ins, string asmstr, list<dag> pattern>
+  : InstRISCV<4, outs, ins, asmstr, pattern> {
+  field bits<32> Inst;
+
+  bits<5> RD;
+  bits<20> IMM;
+
+  let Inst{31-12} = IMM{19-0};
+  let Inst{11- 7} = RD;
+  let Inst{6 - 0} = op;
+}
+...
+```
+
+Un ejemplo para ilustrar como funciona DAG se muestra a continuación:
+
+```pseudocode
+// Arithmetic and logical instructions with 2 register operands.
+class ArithLogicI<bits<8> op, string instr_asm, SDNode OpNode,
+                  Operand Od, PatLeaf imm_type, RegisterClass RC> :
+  FL<op, (outs GPROut:$ra), (ins RC:$rb, Od:$imm16),
+     !strconcat(instr_asm, "\t$ra, $rb, $imm16"),
+     [(set GPROut:$ra, (OpNode RC:$rb, imm_type:$imm16))], IIAlu> {
+  let isReMaterializable = 1;
+}
+// IR "add" defined in include/llvm/Target/TargetSelectionDAG.td, line 315 (def add).
+def ADDiu   : ArithLogicI<0x09, "addiu", add, simm16, immSExt16, CPURegs>;
+```
+
+Se observa cómo funciona la coincidencia en el patrón del nodo IR, el nodo de add y el ADDiu, que ambos se deben definir en **RISCVInstrInfo.td**. En este ejemplo, el nodo IR "add %a, 5" se convertirá en "addiu $r1, 5" después de que %a se haya analizado para registrar $r1 en la etapa de asignación de registros. En el archivo .td establece la instrucción con su codificación "addiu" y su código de operación 0x09. Con esta información, el TableGen de LLVM generará instrucciones en ensamblador y en binario de forma automática.
+
+<p align="center"> <img src="f9.png"> </p>
+
+<p align="center"> Figura 9. Patrón de coincidencia entre IR y ADDIu </p>
+
+De la selección de instrucciones DAG , el nodo hoja debe ser un nodo de datos. ADDiu es el tipo de formato I en el ejemplo anterior, en este caso el último operando debe encajar en un rango de 16 bits (immSExt16) como se observa en el ejemplo. Entonces, en **RISCVInstrInfo.td** se define un tipo de PatLeaf de immSExt16 para que el sistema LLVM conozca el rango de PatLeaf. Si el valor imm16 está fuera de este rango, la función devolverá false y este patrón no usará ADDiu en la etapa de selección de instrucciones.
+
+#### Generando el backend
+
+Como se mencionó anteriormente, LLVM usa archivos de descripción en formato .td para describir varios componentes del backend de un objetivo. Por ejemplo, estos archivos .td pueden describir el conjunto de registros, el conjunto de instrucciones, la información de programación de las instrucciones y las convenciones de llamada de un objetivo. Cuando se compila el backend, la herramienta [Tablegen](http://llvm.org/docs/TableGen/index.html) que viene con LLVM traducirá estos archivos .td a código fuente C ++ escrito en archivos que tienen una extensión .inc
+
+Para generar el compilador se debe ejecutar:
+
+```
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX=/opt/riscv -DLLVM_TARGETS_TO_BUILD="RISCV" ../
+$ make -j$(nproc)
+$ make install
+```
+
+El proceso de compilación tarde aproximadamente 25 minutos, el compilador quedaría instalado en /opt/riscv
+
+
 
