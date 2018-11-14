@@ -531,7 +531,7 @@ def InitWindow():
     initWindow.mainloop()
 
 def compileModel(pWindow):
-    
+    print("compile")
 
 '''
 @brief
