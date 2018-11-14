@@ -179,7 +179,7 @@ def FeatureA : SubtargetFeature<"a", "HasA", "true",
                                 "Supports Atomic Instructions.">;
 ```
 
-En **RISCVInstrInfo.td**se describen las instrucciones de propósito general como add, stl, sub; en cada instrucción se debe definir el nombre, el formato, los bits para cada parte según se definió en el ISA al inicio.
+En **RISCVInstrInfo.td** se describen las instrucciones de propósito general como add, stl, sub; en cada instrucción se debe definir el nombre, el formato, los bits para cada parte según se definió en el ISA al inicio.
 
 ```makefile
 /*******************
@@ -476,5 +476,87 @@ $ make install
 
 El proceso de compilación tarde aproximadamente 25 minutos, el compilador quedaría instalado en /opt/riscv
 
+#### Ejemplo:
 
+Se tiene el archivo **multiply.c** que ejecuta una simple multiplicación:
+
+```c
+int mult() {
+int a =5;
+int b = 3;
+int c = a * b;
+return c;
+}
+```
+
+El siguiente comando se usa para generar el modelo intermedio IR LLVM el código C:
+
+```bash
+$ clang -target riscv -mriscv=RV32IAMFD -S multiply.c -o multiply.ll
+```
+
+Se debe trabajar en el directorio generado en /opt/risv/bin, y ejecutar el clang compilado. Para este caso se tiene la versión 3.9.1 como se observa en la figura 10.
+
+<p align="center"> <img src="f10.png"> </p>
+
+<p align="center"> Figura 10. Binarios generados por la compilación y salida del clang </p>
+
+De la misma manera se debe trabajar sobre el directorio generado para tener soporte a nuestro RISCV generado, tal como se observa en la figura 11 en la salida de llc y los destinos registrados RISCV y RISCV64.
+
+<p align="center"> <img src="f11.png"> </p>
+
+<p align="center"> Figura 11. Salida del llc compilado </p>
+
+En la figura 12 se tiene la salida del llc instalado de LLVM instalado por defecto en la versión 3.8.1 dónde no se incluye el destino RISCV .
+
+<p align="center"> <img src="f12.png"> </p>
+
+<p align="center"> Figura 12. LLVM instalado por defecto </p>
+
+Después del comando clang se genera un archivo .ll que es el modelo intermedio cuya salida es:
+
+```pseudocode
+; ModuleID = 'multiply.c'
+source_filename = "multiply.c"
+target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+; Function Attrs: nounwind uwtable
+define i32 @mult() #0 {
+entry:
+  %a = alloca i32, align 4
+  %b = alloca i32, align 4
+  %c = alloca i32, align 4
+  store i32 5, i32* %a, align 4
+  store i32 3, i32* %b, align 4
+  %0 = load i32, i32* %a, align 4
+  %1 = load i32, i32* %b, align 4
+  %mul = mul nsw i32 %0, %1
+  store i32 %mul, i32* %c, align 4
+  %2 = load i32, i32* %c, align 4
+  ret i32 %2
+}
+```
+
+Para analizar los distintas formas de modelo intermedio, se puede usar llvm-as para pasarlo a formato binario
+
+```bash
+$ llvm-as multiply.ll –o multiply.bc
+```
+
+Si se analiza el archivo .bc se tiene lo siguiente:
+
+<p align="center"> <img src="f13.png"> </p>
+
+Dado que este es un archivo de código de bits, la mejor manera de ver su contenido es mediante la herramienta hexdump :
+
+<p align="center"> <img src="f14.png"> </p>
+
+
+
+El archivo de código de bits creado en el paso anterior, multiply.bc, se puede usar como entrada para llc. Usando el siguiente comando, podemos convertir código de bits LLVM a código ensamblador:
+
+<p align="center"> <img src="f15.png"> </p>
+
+Para hacer una prueba, se eliminará una instrucción del archivo RISCVInstrInfo.td y se volverá a correr el mismo ejemplo y observar si ocurren cambios. Para el cambio se debe volver a compilar el backend.
 
