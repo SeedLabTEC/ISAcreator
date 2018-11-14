@@ -56,11 +56,10 @@ def model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOpti
     operationsName = []
     for element in pOperationsTypeAvailable:
         operationsName.append(element['operation'])
-
     myBars = Checkbar(selectOperationFrame, pBars = operationsName) 
     myBars.pack(side=tk.TOP,  fill=tk.Y)
     
-    for i in range(0, len(myBars.barList)-1):
+    for i in range(0, len(myBars.barList)):
         if(int(pOperationsTypeAvailable[i]['flag']) == 1):
             myBars.setState(i, 1)
             myBars.barList[i].select()
@@ -85,7 +84,7 @@ def model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOpti
     sizeLabelFP = tk.Label(registersCharacteristicsFrame2, text="Size",font = ("Arial Bold", 10), fg= '#444422', bg='#eeffe6')
     sizeEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='#eeffe6', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
     amountLabelFP = tk.Label(registersCharacteristicsFrame2, text="Amount",font = ("Arial Bold", 10), fg= 'black', bg='#eeffe6')        
-    amountEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='white', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
+    amountEntryFP = tk.Entry(registersCharacteristicsFrame2, width=20, bd = 2, bg='eeffe6', font= ('roboto condensed',8),fg='#444422',highlightcolor = '#444422')        
 
     #pack gui elements
     #frame #1
@@ -116,7 +115,7 @@ def model(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOpti
     encodeButton = tk.Button(createWindow, text="Create Encodification Type" , width= 20 ,font= ("Arial Bold", 8), bg = '#c3c388', 
                 command= lambda:createInstEncodWindow(createWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOption, instSize, registerType), activebackground = '#444422', 
                 cursor = 'man', fg = 'white')
-    createModel = tk.Button(createWindow, text="Create Model" , width= 20 ,font= ("Arial Bold", 8), bg = '#c3c388', 
+    createModel = tk.Button(createWindow, text="Save Model" , width= 20 ,font= ("Arial Bold", 8), bg = '#c3c388', 
                command= lambda:createModelFunct(createWindow, pOperationsTypeAvailable, pEncodes, pFileName,listOfIns,pOption, instSize, registerType, sizeEntrySR, amountEntrySR),cursor = 'man',activeforeground = '#444422', fg ='white')
 
     instructionButton.place(x = 40, y = 350)
@@ -462,15 +461,16 @@ def createModelFunct(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,list
             except OSError:  
                 print ("Creation of the directory %s failed" % "./Architectures/"+myName)
             else:  
-                writer = Writer("./Architectures/"+myName+".txt")
+                writer = Writer("./Architectures/"+myName+"/"+myName+".txt")
                 writer.setOperations(pOperationsTypeAvailable)
                 writer.setEncodifications(pEncodes)
                 writer.setRegister(registerType)
                 writer.setInstSize(instSize)
                 writer.setInstructions(listOfIns)
-                pWindow.destroy()
-                InitWindow()
                 print ("Successfully created the directory %s " % "./Architectures/"+myName)
+                createModel.destroy()
+                pWindow.destroy()
+                InitWindow()                
     else:
         writer = Writer(pFileName)
         writer.setOperations(pOperationsTypeAvailable)
@@ -478,7 +478,8 @@ def createModelFunct(pWindow, pOperationsTypeAvailable, pEncodes, pFileName,list
         writer.setRegister(registerType)
         writer.setInstSize(instSize)
         writer.setInstructions(listOfIns)
-        print ("Successfully created")
+        print ("Successfully saved")
+        createModel.destroy()
         pWindow.destroy()
         InitWindow()        
 
@@ -515,6 +516,9 @@ def InitWindow():
     loadButton = tk.Button(initFrame, text="Load Model" , width= 10 ,font= ("Arial Bold", 15), bg = "white", 
                     command= lambda:nextAction("load"), activebackground = '#ffffb3', 
                     cursor = 'fleur',activeforeground = '#1a1a00')
+    compileButton = tk.Button(initFrame, text="Compile Model" , width= 10 ,font= ("Arial Bold", 15), bg = "white", 
+                    command= lambda:nextAction("load"), activebackground = '#ffffb3', 
+                    cursor = 'fleur',activeforeground = '#1a1a00')
     exitButton = tk.Button(initFrame, text="Exit" , width= 10, font= ("Arial Bold", 15), bg = "white", 
                 command= lambda:nextAction("exit"), activebackground = '#ffffb3', 
                 cursor = 'fleur',activeforeground = '#1a1a00')
@@ -526,6 +530,8 @@ def InitWindow():
     exitButton.pack(pady = 10)
     initWindow.mainloop()
 
+def compileModel(pWindow):
+    
 
 '''
 @brief
@@ -566,7 +572,7 @@ def selectArch(pWindow, pOption = 1):
                         activebackground = '#ffffb3', 
                         cursor = 'fleur',activeforeground = '#1a1a00')
         mips32 = tk.Button(window, text="Mips 32" , width= 10, font= ("Arial Bold", 12),
-                        bg = "white", command= lambda:nextStep(pWindow,"./Architectures/mips32/riscV-32-Arch.txt",window),
+                        bg = "white", command= lambda:nextStep(pWindow,"./Architectures/mips32/mips-32-Arch.txt",window),
                         activebackground = '#ffffb3', 
                         cursor = 'fleur',activeforeground = '#1a1a00')
         mips16 = tk.Button(window, text="Mips 16" , width= 10, font= ("Arial Bold", 12),

@@ -1,0 +1,44 @@
+{"type": "R", "flag": 1, "operation": "Arithmetic-Logic"}
+{"type": "I", "flag": 1, "operation": "Arithmetic-Logic Immediate"}
+{"type": "J", "flag": "1", "operation": "Jump"}
+{"endocodification": {"RD": "5|11|15", "OpCode": "6|26|31", "shamtp": "5|6| 10", "Funct": "6|0|5", "type": "R", "RS": "5|21|25", "RT": "5|15|19"}}
+{"endocodification": {"RD": "5|7|11", "IMM": "12|20|31", "RS": "5|21|25", "type": "L", "shamt": "3|12|14", "OpCode": "6|26|31"}}
+{"endocodification": {"type": "I", "IMM": "16|0|15", "OpCode": "6|26|31", "RT": "5|16|20", "RS": "5|21|25"}}
+{"endocodification": {"type": "J", "OpCode": "6|26|31", "IMM": "26|0|25"}}
+{"size": "32", "amount": "32", "registerType": "simple"}
+{"instructionSize": "32"}
+{"instruction": {"name": "add", "shamt": "00000", "Funct": "100000", "type": "R", "OpCode": "000000", "flag": "1"}}
+{"instruction": {"name": "addu", "shamt": "00000", "Funct": "100001", "type": "R", "OpCode": "000000", "flag": "1"}}
+{"instruction": {"name": "sub", "shamt": "00000", "Funct": "100010", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "subu", "shamt": "00000", "Funct": "100011", "type": "R", "OpCode": "000000", "flag": "1"}}
+{"instruction": {"name": "mul", "shamt": "00000", "Funct": "011000", "type": "R", "OpCode": "000000", "flag": "1"}}
+{"instruction": {"name": "mulu", "shamt": "00000", "Funct": "011001", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "div", "shamt": "00000", "Funct": "011010", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "divu", "shamt": "00000", "Funct": "100011", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "slt", "shamt": "00000", "Funct": "101010", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "and", "shamt": "00000", "Funct": "100100", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "xor", "shamt": "00000", "Funct": "101000", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "or", "shamt": "00000", "Funct": "100101", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "sll", "shamt": "00000", "Funct": "0000000", "type": "R", "OpCode": "011001", "flag": "0"}}
+{"instruction": {"name": "srl", "shamt": "00000", "Funct": "0000010", "type": "R", "OpCode": "011001", "flag": "0"}}
+{"instruction": {"name": "sra", "shamt": "00000", "Funct": "0000011", "type": "R", "OpCode": "011001", "flag": "0"}}
+{"instruction": {"name": "nop", "shamt": "00000", "Funct": "000000", "type": "R", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"type": "I", "OpCode": "000100", "flag": "0", "name": "beq"}}
+{"instruction": {"type": "I", "OpCode": "000101", "flag": "0", "name": "bne"}}
+{"instruction": {"type": "I", "OpCode": "000110", "flag": "0", "name": "blez"}}
+{"instruction": {"type": "I", "OpCode": "000111", "flag": "0", "name": "bgtz"}}
+{"instruction": {"type": "I", "OpCode": "000001", "flag": "0", "name": "bltz"}}
+{"instruction": {"type": "I", "OpCode": "100011", "flag": "0", "name": "lw"}}
+{"instruction": {"type": "I", "OpCode": "100000", "flag": "0", "name": "lb"}}
+{"instruction": {"type": "I", "OpCode": "100100", "flag": "0", "name": "lbu"}}
+{"instruction": {"type": "I", "OpCode": "001111", "flag": "0", "name": "lui"}}
+{"instruction": {"type": "I", "OpCode": "101011", "flag": "0", "name": "sw"}}
+{"instruction": {"type": "I", "OpCode": "101000", "flag": "0", "name": "sb"}}
+{"instruction": {"type": "I", "OpCode": "001000", "flag": "0", "name": "addi"}}
+{"instruction": {"type": "I", "OpCode": "001001", "flag": "0", "name": "addiu"}}
+{"instruction": {"type": "I", "OpCode": "001001", "flag": "0", "name": "xori"}}
+{"instruction": {"type": "I", "OpCode": "001101", "flag": "0", "name": "ori"}}
+{"instruction": {"type": "I", "OpCode": "001100", "flag": "0", "name": "andi"}}
+{"instruction": {"type": "J", "OpCode": "000010", "flag": "1", "name": "jump"}}
+{"instruction": {"name": "jr", "shamt": "00000", "Funct": "001000", "type": "J", "OpCode": "000000", "flag": "0"}}
+{"instruction": {"name": "jalr", "shamt": "00000", "Funct": "001001", "type": "J", "OpCode": "000000", "flag": "0"}}

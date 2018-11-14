@@ -156,9 +156,9 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
                 for j in range(0,len(listOfInst)-1):                    
                     if(listOfInst[j]['name'] == tmplistOfInst[i]['name']):
                         if(selected[i] == 1):
-                            listOfInst[j]['flag'] = selected[i]
+                            listOfInst[j]['flag'] = ''+str(selected[i])+''
             root.destroy()
-        for j in pOperationsTypeSelected:            
+        for j in pOperationsTypeSelected:           
             if(int(j['flag']) == 1):             
                 listOfInstType = reader.getInstructionsByType(listOfInst, j['type'])
                 tmplistOfInst+=listOfInstType
@@ -168,7 +168,15 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
                 lng = Checkbar(root, l)                
                 lng.pack(side=tk.TOP,  fill=tk.X)
                 lng.config(relief=tk.GROOVE, bd=2)    
-                listOfObj.append(lng)    
+                listOfObj.append(lng)  
+        
+        for lng in listOfObj:
+            for i in range(0, len(lng.bars)-1):
+                for j in range(0,len(listOfInst)-1):
+                    if(listOfInst[j]['name'] == lng.bars[i]):    
+                        if(listOfInst[j]['flag'] == '1'):    
+                            lng.setState(i, 1)
+                            lng.barList[i].select()
                                     
         tk.Button(root, text='Peek', command=updateFlags).pack(side=tk.RIGHT)
         tk.Button(root, text='Create Inst', command=createInstruction).pack(side=tk.RIGHT)                
