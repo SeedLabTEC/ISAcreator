@@ -29,12 +29,12 @@ for i in inst:
             ALU_Inst = ALU_Inst + ":" + i['name']
 
 try:
-    ALU.Generate_ALU_File("SUB:ADD")
+    ALU.Generate_ALU_File(ALU_Inst.upper())
 except:
     Util.Write_Log("Error in ALU generation")
 
 try:
-    Control.Generate_Control_File("LW:SW")
+    Control.Generate_Control_File(Control_Inst.upper())
 except:
     Util.Write_Log("Error in Control Unit generation")
 
@@ -47,7 +47,7 @@ Util.Write_Log("Execution Complete")
 print("*********************************************************************************")
 print("*************************Compile and Verification********************************")
 print("Possible errors:")
-os.system("cd RISC && ./run.sh")
+os.system("cd Generated_Hardware && ./run.sh")
 print("*********************************************************************************\n\n")
 
 print("*********************************************************************************")

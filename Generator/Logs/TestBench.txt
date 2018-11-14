@@ -1,4 +1,5 @@
 WARNING: Data_Memory.v:24: $readmemb: Standard inconsistency, following 1364-2005.
+time =                    0
 	memory[0] = 0000000000000001
 	memory[1] = 0000000000000001
 	memory[2] = 0000000000000000
@@ -8,8 +9,9 @@ WARNING: Data_Memory.v:24: $readmemb: Standard inconsistency, following 1364-200
 	memory[6] = 0000000000000000
 	memory[7] = 0000000000000000
 
+time =                   95
 	memory[0] = 0000000000000001
-	memory[1] = 0000000000001101
+	memory[1] = 0000000000001000
 	memory[2] = 0000000000000000
 	memory[3] = 0000000000000000
 	memory[4] = 0000000000000000
