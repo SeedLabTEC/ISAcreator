@@ -1,6 +1,6 @@
 ## Creando un backend con LLVM para una arquitectura RISC-V 
 
-[basado en cpu0 de Chen Chung-Shu](https://jonathan2251.github.io/lbd/about.html) y [documentación de LLVM](https://www.llvm.org/docs/WritingAnLLVMBackend.html)
+basado en cpu0 de Chen Chung-Shu (https://jonathan2251.github.io/lbd/about.html) y documentación de LLVM (https://www.llvm.org/docs/WritingAnLLVMBackend.html)
 
 <p align="justify"> LLVM es una es una infraestructura para desarrollar compiladores, diseñada para optimizar el tiempo de enlazado, de compilación y de ejecución de cualquier lenguaje de programación definido por el usuario. </p>
 
@@ -8,7 +8,7 @@
 
 <p align="center"> <img src="f1.png"> </p>
 
-<p align="center"> Figura 1. Fases generales del compilador </p>
+<p align="center"> Figura 1. Fases generales del compilador [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html] </p>
 
 <p align="justify"> Debido a que el código de entrada puede ser cualquiera, es complejo el manejo de N posibles entradas. En este caso nos vamos a enfocar en el backend y el modelo intermedio (IR) que genera LLVM para la creación del código máquina deseado.</p>
 
@@ -102,7 +102,7 @@ que proporciona dos formas diferentes de agregar números enteros.
 
 <p align="center"> <img src="f5.png"> </p>
 
-<p align="center"> Figura 5. Descripción de la generación de código máquina en LLVM </p>
+<p align="center"> Figura 5. Descripción de la generación de código máquina en LLVM [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 <p align="justify"> Los archivos que se deben modificar y/o crear .td son varios, se explicará cada uno de ellos con detalle.</p>
 
@@ -310,7 +310,7 @@ El llvm-tblgen genera **RISCVGenInstrInfo.inc** en base a la información de **R
 
 <p align="center"> <img src="f6.png"> </p>
 
-<p align="center"> Figura 6. Secuencia de generación de código.</p>
+<p align="center"> Figura 6. Secuencia de generación de código. [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 En la ruta del código LLVM al código ensamblador, se ejecutan numerosos pases y se utilizan varias estructuras de datos para representar los resultados intermedios.
 
@@ -410,13 +410,13 @@ Muchas técnicas importantes para la optimización inician al transformar un blo
 
 <p align="center"> <img src="f7.png"> </p>
 
-<p align="center"> Figura 7. Ejemplo de DAG </p>
+<p align="center"> Figura 7. Ejemplo de DAG [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html] </p>
 
 Para la selección de instrucciones de la máquina, la mejor solución es representar la instrucción de LLVM IR y de máquina por DAG.
 
 <p align="center"> <img src="f8.png"> </p>
 
-<p align="center"> Figura 8. Representación de instrucción DAG </p>
+<p align="center"> Figura 8. Representación de instrucción DAG [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 Tal y como se analizó antes, en el archivo **RISCVInstrFormats.td** se indican los formatos de instrucciones y se hace uso de DAG para su representación.
 
@@ -489,6 +489,12 @@ return c;
 }
 ```
 
+Para preparar el entorno se ejecuta el comando:
+
+````bash
+$ export PATH="/opt/riscv/bin:$PATH"
+````
+
 El siguiente comando se usa para generar el modelo intermedio IR LLVM el código C:
 
 ```bash
@@ -501,7 +507,7 @@ Se debe trabajar en el directorio generado en /opt/risv/bin, y ejecutar el clang
 
 <p align="center"> Figura 10. Binarios generados por la compilación y salida del clang </p>
 
-De la misma manera se debe trabajar sobre el directorio generado para tener soporte a nuestro RISCV generado, tal como se observa en la figura 11 en la salida de llc y los destinos registrados RISCV y RISCV64.
+De la misma manera se debe trabajar sobre el directorio generado para tener soporte a nuestro RISCV generado, tal como se observa en la figura 11 en la salida de llc y los destinos registrados RISCV32 y RISCV64.
 
 <p align="center"> <img src="f11.png"> </p>
 
