@@ -127,6 +127,7 @@ def selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,list
                 x['funct3'] = funct3Select.get()
                 x['opcode'] = opcodeSelect.get()
                 x['type'] = operationTypeSelect.get()
+                x['flag'] = "0"
                 listOfInst.append(x)
                 createInstWindow.destroy()
                 selectInstructions(pWindow, pOperationsTypeSelected, pEncodes,pFileName,listOfInst)
