@@ -1,6 +1,6 @@
 ## Creando un backend con LLVM para una arquitectura RISC-V 
 
-[basado en cpu0 de Chen Chung-Shu](https://jonathan2251.github.io/lbd/about.html) y [documentación de LLVM](https://www.llvm.org/docs/WritingAnLLVMBackend.html)
+basado en cpu0 de Chen Chung-Shu (https://jonathan2251.github.io/lbd/about.html) y documentación de LLVM (https://www.llvm.org/docs/WritingAnLLVMBackend.html)
 
 <p align="justify"> LLVM es una es una infraestructura para desarrollar compiladores, diseñada para optimizar el tiempo de enlazado, de compilación y de ejecución de cualquier lenguaje de programación definido por el usuario. </p>
 
@@ -8,7 +8,7 @@
 
 <p align="center"> <img src="f1.png"> </p>
 
-<p align="center"> Figura 1. Fases generales del compilador </p>
+<p align="center"> Figura 1. Fases generales del compilador [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html] </p>
 
 <p align="justify"> Debido a que el código de entrada puede ser cualquiera, es complejo el manejo de N posibles entradas. En este caso nos vamos a enfocar en el backend y el modelo intermedio (IR) que genera LLVM para la creación del código máquina deseado.</p>
 
@@ -102,7 +102,7 @@ que proporciona dos formas diferentes de agregar números enteros.
 
 <p align="center"> <img src="f5.png"> </p>
 
-<p align="center"> Figura 5. Descripción de la generación de código máquina en LLVM </p>
+<p align="center"> Figura 5. Descripción de la generación de código máquina en LLVM [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 <p align="justify"> Los archivos que se deben modificar y/o crear .td son varios, se explicará cada uno de ellos con detalle.</p>
 
@@ -310,7 +310,7 @@ El llvm-tblgen genera **RISCVGenInstrInfo.inc** en base a la información de **R
 
 <p align="center"> <img src="f6.png"> </p>
 
-<p align="center"> Figura 6. Secuencia de generación de código.</p>
+<p align="center"> Figura 6. Secuencia de generación de código. [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 En la ruta del código LLVM al código ensamblador, se ejecutan numerosos pases y se utilizan varias estructuras de datos para representar los resultados intermedios.
 
@@ -410,13 +410,13 @@ Muchas técnicas importantes para la optimización inician al transformar un blo
 
 <p align="center"> <img src="f7.png"> </p>
 
-<p align="center"> Figura 7. Ejemplo de DAG </p>
+<p align="center"> Figura 7. Ejemplo de DAG [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html] </p>
 
 Para la selección de instrucciones de la máquina, la mejor solución es representar la instrucción de LLVM IR y de máquina por DAG.
 
 <p align="center"> <img src="f8.png"> </p>
 
-<p align="center"> Figura 8. Representación de instrucción DAG </p>
+<p align="center"> Figura 8. Representación de instrucción DAG [Tomada de http://jonathan2251.github.io/lbd/llvmstructure.html]</p>
 
 Tal y como se analizó antes, en el archivo **RISCVInstrFormats.td** se indican los formatos de instrucciones y se hace uso de DAG para su representación.
 
@@ -489,19 +489,25 @@ return c;
 }
 ```
 
+Para preparar el entorno se ejecuta el comando:
+
+````bash
+$ export PATH="/opt/riscv/bin:$PATH"
+````
+
 El siguiente comando se usa para generar el modelo intermedio IR LLVM el código C:
 
 ```bash
-$ clang -target riscv -mriscv=RV32IAMFD -S multiply.c -o multiply.ll
+$ clang -target riscv -S multiply.c -o multiply.ll -emit-llvm
 ```
 
-Se debe trabajar en el directorio generado en /opt/risv/bin, y ejecutar el clang compilado. Para este caso se tiene la versión 3.9.1 como se observa en la figura 10.
+Se debe trabajar en el directorio generado en /opt/risv/bin, y ejecutar el clang compilado. Para este caso se tiene la versión 7.0.0 como se observa en la figura 10.
 
 <p align="center"> <img src="f10.png"> </p>
 
-<p align="center"> Figura 10. Binarios generados por la compilación y salida del clang </p>
+<p align="center"> Figura 10. Información de clang </p>
 
-De la misma manera se debe trabajar sobre el directorio generado para tener soporte a nuestro RISCV generado, tal como se observa en la figura 11 en la salida de llc y los destinos registrados RISCV y RISCV64.
+De la misma manera se debe trabajar sobre el directorio generado para tener soporte a nuestro RISCV generado, tal como se observa en la figura 11 en la salida de llc y los destinos registrados RISCV32 y RISCV64.
 
 <p align="center"> <img src="f11.png"> </p>
 
@@ -513,16 +519,22 @@ En la figura 12 se tiene la salida del llc instalado de LLVM instalado por defec
 
 <p align="center"> Figura 12. LLVM instalado por defecto </p>
 
-Después del comando clang se genera un archivo .ll que es el modelo intermedio cuya salida es:
+Después del comando clang se genera un archivo .ll que se puede ver con el comando:
+
+```bash
+$ cat multiply.c
+```
+
+Y se observa el modelo intermedio:
 
 ```pseudocode
 ; ModuleID = 'multiply.c'
 source_filename = "multiply.c"
-target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-unknown-linux-gnu"
+target datalayout = "e-m:e-p:32:32-i64:64-n32-S128"
+target triple = "riscv32"
 
-; Function Attrs: nounwind uwtable
-define i32 @mult() #0 {
+; Function Attrs: noinline nounwind optnone
+define dso_local i32 @mult() #0 {
 entry:
   %a = alloca i32, align 4
   %b = alloca i32, align 4
@@ -536,6 +548,7 @@ entry:
   %2 = load i32, i32* %c, align 4
   ret i32 %2
 }
+
 ```
 
 Para analizar los distintas formas de modelo intermedio, se puede usar llvm-as para pasarlo a formato binario
@@ -548,15 +561,17 @@ Si se analiza el archivo .bc se tiene lo siguiente:
 
 <p align="center"> <img src="f13.png"> </p>
 
+<p align="center"> Figura 13. Archivo binario generado desde el modelo intermedio </p>
+
 Dado que este es un archivo de código de bits, la mejor manera de ver su contenido es mediante la herramienta hexdump :
 
 <p align="center"> <img src="f14.png"> </p>
 
-
+<p align="center"> Figura 14. Archivo en hexadecimal visto con la herramienta hexdump </p>
 
 El archivo de código de bits creado en el paso anterior, multiply.bc, se puede usar como entrada para llc. Usando el siguiente comando, podemos convertir código de bits LLVM a código ensamblador:
 
 <p align="center"> <img src="f15.png"> </p>
 
-Para hacer una prueba, se eliminará una instrucción del archivo RISCVInstrInfo.td y se volverá a correr el mismo ejemplo y observar si ocurren cambios. Para el cambio se debe volver a compilar el backend.
+Para hacer una prueba, se eliminará una instrucción del archivo RISCVInstrInfo.td y se ejecutará un "hola mundo" en C y se va observar si ocurren cambios. Para el cambio se debe volver a compilar el backend.
 
